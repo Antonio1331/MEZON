@@ -1,0 +1,10 @@
+aiosqlite==0.22.1
+asgiref==3.11.0
+Django==6.0.1
+django-jazzmin==3.0.1
+django-modeltranslation==0.19.19
+ngrok==1.7.0
+pillow==12.1.0
+sqlparse==0.5.5
+typing_extensions==4.15.0
+tzdata==2025.3
