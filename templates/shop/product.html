@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+  {{ product.name }} — {% trans "купить" %} | {% trans "MEZON Market" %}
+{% endblock %}
+
+{% block meta_description %}
+  {% if product.description %}
+    {{ product.description|striptags|truncatechars:160 }}
+  {% else %}
+    {% trans "Купить" %} {{ product.name }}. {% trans "Цена" %}: {{ product.price }} {% trans "сум" %}. {% trans "Доставка — MEZON Market." %}
+  {% endif %}
+{% endblock %}
+
+{% block og_type %}product{% endblock %}
+
+{% block og_image %}
+  {% if product.image %}
+    https://mezon-market.uz{{ product.image.url }}
+  {% else %}
+    https://mezon-market.uz{% static 'img/logo.jpg' %}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+<div class="glass p-4 md:p-6 rounded-3xl">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      {% if product.image %}
+        <img src="{{ product.image.url }}" class="w-full h-80 object-cover rounded-3xl" alt="{{ product.name }}">
+      {% else %}
+        <div class="w-full h-80 rounded-3xl bg-white/5"></div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="text-2xl md:text-3xl font-extrabold">{{ product.name }}</div>
+      <div class="mt-2 text-white/70">{{ product.description }}</div>
+
+      <div class="mt-5 flex items-end justify-between">
+        <div class="text-3xl font-extrabold">{{ product.price }}</div>
+        {% if product.stock|default:0 > 0 %}
+          <div class="text-sm text-white/70">{% trans "В наличии" %}: <b>{{ product.stock }}</b></div>
+        {% else %}
+          <div class="text-sm text-white/70"><b>{% trans "Нет в наличии" %}</b></div>
+        {% endif %}
+      </div>
+
+      <div class="mt-4">
+        {% if product.stock|default:0 > 0 %}
+          <button
+            type="button"
+            class="btn-brand w-full text-center py-3 rounded-2xl text-base md:text-sm active:scale-[0.99] transition"
+            data-add-to-cart
+            data-url="{% url 'add_to_cart' product.id %}"
+            data-name="{{ product.name|escapejs }}"
+          >
+            {% trans "В корзину" %}
+          </button>
+        {% else %}
+          <button
+            type="button"
+            class="w-full text-center py-3 rounded-2xl text-base md:text-sm bg-white/10 text-white/50 cursor-not-allowed"
+            disabled
+          >
+            {% trans "Нет в наличии" %}
+          </button>
+        {% endif %}
+      </div>
+
+      <div class="mt-3 text-white/60 text-xs">
+        {% trans "Если товара нет в наличии — добавить в корзину нельзя." %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

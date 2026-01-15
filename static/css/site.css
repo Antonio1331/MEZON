@@ -1,0 +1,50 @@
+:root{
+  --bg: #0b1220;
+  --card: rgba(255,255,255,0.06);
+  --card2: rgba(255,255,255,0.10);
+  --stroke: rgba(255,255,255,0.14);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.70);
+  --accent: #7cdd7c;
+  --accent2:#58c7ff;
+}
+
+body{
+  background:
+    radial-gradient(1200px 600px at 15% 10%, rgba(88,199,255,0.22), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(124,221,124,0.18), transparent 60%),
+    radial-gradient(700px 500px at 50% 90%, rgba(255,180,80,0.12), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+.glass{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+}
+
+.btn-brand{
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color:#061018;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 10px 14px;
+  transition: transform .08s ease;
+}
+.btn-brand:active{ transform: scale(0.98); }
+
+.badge-soft{
+  background: rgba(124,221,124,0.14);
+  border: 1px solid rgba(124,221,124,0.35);
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.price{
+  font-size: 18px;
+  font-weight: 800;
+}

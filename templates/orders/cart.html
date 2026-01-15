@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Корзина" %} — {% trans "MEZON Market" %}{% endblock %}
+
+{% block content %}
+<div class="mt-6">
+  <h1 class="text-2xl font-extrabold mb-4">{% trans "Корзина" %}</h1>
+
+  {% if items %}
+    <div class="glass p-4 space-y-3">
+{% if has_oos %}
+  <div class="glass p-3 border border-red-400/30 text-red-200 text-sm">
+    {% trans "В корзине есть товары, которых нет в наличии. Удалите их, чтобы оформить заказ." %}
+  </div>
+{% endif %}
+
+      {% for i in items %}
+        <div class="flex justify-between items-center gap-3">
+          <div class="min-w-0">
+            <div class="font-bold text-white truncate">{{ i.p.name }}</div>
+            <div class="text-white/60 text-sm">
+              {{ i.qty }} × {{ i.p.price }} {% trans "сум" %}
+            </div>
+            <div class="text-white/60 text-xs mt-1">
+              {% if i.p.stock|default:0 > 0 %}
+                <span class="text-green-300">{% trans "В наличии" %}</span>
+              {% else %}
+                <span class="text-red-300">{% trans "Нет в наличии" %}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="price whitespace-nowrap">{{ i.line }} {% trans "сум" %}</div>
+            <a href="{% url 'remove_from_cart' i.p.id %}" class="text-red-400" aria-label="{% trans 'Удалить' %}">✕</a>
+          </div>
+        </div>
+      {% endfor %}
+
+      <hr class="border-white/10">
+
+      <div class="flex justify-between text-white/70">
+        <span>{% trans "Товары" %}</span>
+        <span>{{ total }} {% trans "сум" %}</span>
+      </div>
+
+      <div class="flex justify-between text-white/70">
+        <span>{% trans "Доставка" %}</span>
+        <span>{{ delivery_fee }} {% trans "сум" %}</span>
+      </div>
+
+      <div class="flex justify-between text-xl font-extrabold">
+        <span>{% trans "Итого" %}</span>
+        <span>{{ total|add:delivery_fee }} {% trans "сум" %}</span>
+      </div>
+
+      {% if has_oos %}
+      <button type="button"
+              class="btn-brand w-full inline-block text-center text-lg mt-2 opacity-60 cursor-not-allowed"
+              disabled
+              title="{% trans 'Удалите товары, которых нет в наличии' %}">
+         {% trans "Оформить заказ" %}
+      </button>
+    {% else %}
+      <a href="{% url 'checkout' %}"
+         class="btn-brand w-full inline-block text-center text-lg mt-2">
+         {% trans "Оформить заказ" %}
+      </a>
+      </a>
+    {% endif %}
+    </div>
+  {% else %}
+    <div class="glass p-6 text-white/60">
+      {% trans "Корзина пуста" %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

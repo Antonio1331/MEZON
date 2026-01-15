@@ -1,0 +1,288 @@
+{% load static i18n %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:'ru' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {# ===== SEO BASIC ===== #}
+  <title>{% block title %}{% trans "MEZON Market" %}{% endblock %}</title>
+
+  <meta name="description"
+        content="{% block meta_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+
+  <link rel="canonical" href="https://mezon-market.uz{{ request.path }}">
+
+  {# ===== OPEN GRAPH ===== #}
+  <meta property="og:site_name" content="{% trans 'MEZON Market' %}">
+  <meta property="og:title"
+        content="{% block og_title %}{% trans 'MEZON Market' %}{% endblock %}">
+  <meta property="og:description"
+        content="{% block og_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+  <meta property="og:url" content="https://mezon-market.uz{{ request.path }}">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:image"
+        content="{% block og_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
+
+  {# ===== TWITTER ===== #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title"
+        content="{% block tw_title %}{% trans 'MEZON Market' %}{% endblock %}">
+  <meta name="twitter:description"
+        content="{% block tw_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+  <meta name="twitter:image"
+        content="{% block tw_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+
+<body class="min-h-screen bg-black text-white">
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-40 bg-black/80 backdrop-blur border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+
+    <!-- LOGO -->
+    <a href="{% url 'home' %}" class="flex items-center gap-3 min-w-0">
+      <img src="{% static 'img/logo.jpg' %}"
+           alt="{% trans 'MEZON Market' %}"
+           class="w-10 h-10 rounded-xl object-cover border border-white/20">
+      <div class="min-w-0">
+        <div class="font-extrabold truncate">{% trans "MEZON Market" %}</div>
+        <div class="text-xs text-white/60 truncate">
+          {% trans "Свежие продукты рядом" %}
+        </div>
+      </div>
+    </a>
+
+    <!-- NAV -->
+    <nav class="flex items-center gap-2 text-sm sm:text-base">
+
+      <a href="{% url 'home' %}"
+         class="px-3 py-2 rounded-xl hover:bg-white/10 transition">
+        {% trans "Каталог" %}
+      </a>
+
+      <a href="{% url 'track_order' %}"
+         class="px-3 py-2 rounded-xl hover:bg-white/10 transition">
+        {% trans "Мой заказ" %}
+      </a>
+
+      <a href="{% url 'cart' %}"
+         class="px-3 py-2 rounded-xl hover:bg-white/10 transition flex items-center gap-2">
+        {% trans "Корзина" %}
+        <span class="min-w-6 h-6 px-2 rounded-full text-xs bg-white/10 border border-white/20 flex items-center justify-center">
+          <span id="cartCount">{{ cart_count|default:0 }}</span>
+        </span>
+      </a>
+
+      <!-- LANGUAGE -->
+      <div class="relative">
+        <button id="langBtn"
+                class="px-3 py-2 rounded-xl bg-white/5 border border-white/20 hover:bg-white/10 transition">
+          🌐 {{ LANGUAGE_CODE|upper }}
+        </button>
+
+        <div id="langMenu"
+             class="hidden absolute right-0 mt-2 w-44 rounded-xl bg-black border border-white/10 shadow-xl">
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button name="language" value="ru" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇷🇺 Русский</button>
+            <button name="language" value="uz" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇺🇿 Ўзбекча</button>
+            <button name="language" value="uz-latn" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇺🇿 Oʻzbekcha</button>
+          </form>
+        </div>
+      </div>
+
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="max-w-6xl mx-auto px-4 pt-5">
+  {% block hero %}{% endblock %}
+</section>
+
+<!-- ================= CONTENT ================= -->
+<main class="max-w-6xl mx-auto px-4 pt-6 pb-24">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-white/10">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-white/60 flex flex-col sm:flex-row justify-between gap-2">
+    <div>© {{ now|date:"Y" }} MEZON Market</div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+  <span>{% trans "Техподдержка" %}:</span>
+  <a href="tel:+998942910023"
+     class="text-white underline hover:text-white/80 transition">
+    +998 94 291-00-23
+  </a>
+
+  <span class="hidden sm:inline text-white/40">•</span>
+
+  <a href="https://t.me/mezonmarketuz"
+     target="_blank"
+     rel="noopener"
+     class="text-white underline hover:text-white/80 transition flex items-center gap-1">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24"
+         fill="currentColor"
+         class="w-4 h-4">
+      <path d="M9.036 15.454 8.8 19.07c.341 0 .488-.146.665-.32l1.596-1.52 3.306 2.42c.607.336 1.04.159 1.197-.562l2.168-10.19c.21-.97-.35-1.35-.94-1.12L3.11 10.05c-.92.36-.91.86-.17 1.09l3.46 1.08 8.03-5.07c.38-.23.73-.11.44.14"/>
+    </svg>
+    @MEZON_support
+  </a>
+  </div>
+    </div>
+</footer>
+
+
+<!-- ================= TOAST ================= -->
+<div id="toast"
+     class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[calc(100%-24px)] max-w-md
+            pointer-events-none opacity-0 translate-y-3 transition duration-300
+            rounded-2xl px-4 py-3 text-sm bg-black/85 border border-white/10 shadow-lg backdrop-blur">
+  <span id="toastText"></span>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div id="toast"
+     class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[calc(100%-24px)] max-w-md
+            pointer-events-none opacity-0 translate-y-3 transition duration-300
+            rounded-2xl px-4 py-3 text-sm shadow-lg backdrop-blur border">
+  <span id="toastText"></span>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+  // ===== Language dropdown =====
+  (function () {
+    const langBtn = document.getElementById("langBtn");
+    const langMenu = document.getElementById("langMenu");
+    if (!langBtn || !langMenu) return;
+
+    langBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      langMenu.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", () => {
+      langMenu.classList.add("hidden");
+    });
+  })();
+
+  // ===== Toast (success/error) =====
+  const toastEl = document.getElementById("toast");
+  const toastTextEl = document.getElementById("toastText");
+  let toastTimer = null;
+
+  function showToast(text, type = "success") {
+    if (!toastEl || !toastTextEl) return;
+
+    toastTextEl.textContent = text;
+
+    // очистить предыдущие стили
+    toastEl.classList.remove(
+      "bg-black/85", "border-white/10", "text-white",
+      "bg-green-500/20", "border-green-400/30", "text-green-100",
+      "bg-red-500/20", "border-red-400/30", "text-red-100"
+    );
+
+    if (type === "error") {
+      toastEl.classList.add("bg-red-500/20", "border-red-400/30", "text-red-100");
+    } else {
+      toastEl.classList.add("bg-green-500/20", "border-green-400/30", "text-green-100");
+    }
+
+    toastEl.classList.remove("opacity-0", "translate-y-3");
+    toastEl.classList.add("opacity-100", "translate-y-0");
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.add("opacity-0", "translate-y-3");
+      toastEl.classList.remove("opacity-100", "translate-y-0");
+    }, 1600);
+  }
+
+  // ===== CSRF helper =====
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
+  function setCartCount(n) {
+    const el = document.getElementById("cartCount");
+    if (el) el.textContent = String(n ?? 0);
+  }
+
+  // ===== Add to cart =====
+  async function addToCart(btn) {
+    const url = btn.dataset.url;
+    const name = btn.dataset.name || "Товар";
+    const csrftoken =
+      getCookie("csrftoken") ||
+      document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
+
+    if (!url) {
+      showToast("Ошибка: не найден URL добавления", "error");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.classList.add("opacity-70");
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRFToken": csrftoken || "",
+          "X-Requested-With": "XMLHttpRequest",
+          "Accept": "application/json",
+        },
+      });
+
+      const ct = (res.headers.get("content-type") || "").toLowerCase();
+      if (!ct.includes("application/json")) {
+        const text = await res.text();
+        showToast(`Ошибка ${res.status}`, "error");
+        console.warn("Non-JSON response:", text);
+        return;
+      }
+
+      const data = await res.json();
+
+      if (res.ok && data && data.ok) {
+        showToast(`${name} добавлен в корзину`, "success");
+        if (typeof data.cart_count !== "undefined") setCartCount(data.cart_count);
+      } else {
+        showToast((data && data.error) ? data.error : "Ошибка", "error");
+      }
+    } catch (e) {
+      showToast("Ошибка сети", "error");
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove("opacity-70");
+    }
+  }
+
+  // Делегирование кликов
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add-to-cart]");
+    if (!btn) return;
+    e.preventDefault();
+    if (btn.disabled) return;
+    addToCart(btn);
+  });
+</script>
+
+</body>
+
+
+</body>
+
+</html>
