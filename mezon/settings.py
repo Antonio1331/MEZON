@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-9rdl^4-y*lacl=ax0a3_7_@q!^4eniu$!kkmx9azv!xp#wm97d"
 
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["mezon-market.uz", "www.mezon-market.uz", "45.92.173.192"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok-free.dev",
@@ -125,6 +125,7 @@ TIME_FORMAT = "H:i"
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
