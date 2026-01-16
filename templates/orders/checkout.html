@@ -23,12 +23,18 @@
 
       <input
         name="name"
+        autocomplete="name"
+        required
         placeholder="{% trans 'Ваше имя' %}"
         class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
       >
 
       <input
         name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        required
         placeholder="{% trans 'Телефон' %}"
         class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
       >
@@ -36,22 +42,25 @@
       <input
         name="address"
         id="id_address"
+        autocomplete="street-address"
+        required
         placeholder="{% trans 'Адрес доставки' %}"
         class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
       >
 
-      <input
+      <textarea
         name="comment"
+        rows="3"
         placeholder="{% trans 'Комментарий (необязательно)' %}"
         class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
-      >
+      ></textarea>
 
       <!-- Гео скрытые поля -->
       <input type="hidden" name="lat" id="lat">
       <input type="hidden" name="lng" id="lng">
 
       <div class="space-y-2">
-        <button type="button" id="geoBtn" class="btn-brand">
+        <button type="button" id="geoBtn" class="btn-brand" aria-describedby="geoStatus">
           {% trans "Определить местоположение" %}
         </button>
 

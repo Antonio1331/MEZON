@@ -7,145 +7,134 @@
 
   {# ===== SEO BASIC ===== #}
   <title>{% block title %}{% trans "MEZON Market" %}{% endblock %}</title>
-
   <meta name="description"
         content="{% block meta_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
-
   <link rel="canonical" href="https://mezon-market.uz{{ request.path }}">
 
   {# ===== OPEN GRAPH ===== #}
   <meta property="og:site_name" content="{% trans 'MEZON Market' %}">
-  <meta property="og:title"
-        content="{% block og_title %}{% trans 'MEZON Market' %}{% endblock %}">
-  <meta property="og:description"
-        content="{% block og_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{% trans 'MEZON Market' %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
   <meta property="og:url" content="https://mezon-market.uz{{ request.path }}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-  <meta property="og:image"
-        content="{% block og_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
 
   {# ===== TWITTER ===== #}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title"
-        content="{% block tw_title %}{% trans 'MEZON Market' %}{% endblock %}">
-  <meta name="twitter:description"
-        content="{% block tw_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
-  <meta name="twitter:image"
-        content="{% block tw_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
+  <meta name="twitter:title" content="{% block tw_title %}{% trans 'MEZON Market' %}{% endblock %}">
+  <meta name="twitter:description" content="{% block tw_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
 
+  {# Tailwind + твой CSS #}
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen text-white">
 
 <!-- ================= HEADER ================= -->
-<header class="sticky top-0 z-40 bg-sky-700/90 backdrop-blur border-b border-white/15">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+<header id="siteHeader"
+        class="sticky top-0 z-50 bg-sky-700/90 backdrop-blur border-b border-white/15
+               transition-transform duration-300 will-change-transform">
+  <div class="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-2">
 
-    <!-- LOGO -->
-    <a href="{% url 'home' %}" class="logo flex items-center gap-3">
+    <!-- LOGO (компактнее на мобиле) -->
+    <a href="{% url 'home' %}" class="flex items-center gap-2 min-w-0">
       <img src="{% static 'img/logo.jpg' %}"
            alt="{% trans 'MEZON Market' %}"
-           class="w-10 h-10 rounded-xl object-cover border border-white/20">
-      <div class="min-w-0">
-        <div class="font-extrabold truncate">{% trans "MEZON Market" %}</div>
-        <div class="text-xs text-white/60 truncate">
-          {% trans "Свежие продукты рядом" %}
-        </div>
+           class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border border-white/20">
+      <div class="min-w-0 leading-tight">
+        <div class="font-extrabold truncate text-sm sm:text-base">{% trans "MEZON Market" %}</div>
+        <div class="text-[11px] sm:text-xs text-white/60 truncate">{% trans "Свежие продукты рядом" %}</div>
       </div>
     </a>
 
-    <!-- NAV -->
-    <nav class="flex items-center gap-2 text-sm sm:text-base">
-
+    <!-- NAV: все кнопки видны — перенос на новую строку -->
+    <nav class="flex flex-wrap justify-end items-center gap-1.5 sm:gap-2 text-[13px] sm:text-base max-w-[70%]">
       <a href="{% url 'home' %}"
-         class="px-3 py-2 rounded-xl hover:bg-white/10 transition">
+         class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl hover:bg-white/10 transition">
         {% trans "Каталог" %}
       </a>
 
       <a href="{% url 'track_order' %}"
-         class="px-3 py-2 rounded-xl hover:bg-white/10 transition">
+         class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl hover:bg-white/10 transition">
         {% trans "Мой заказ" %}
       </a>
 
       <a href="{% url 'cart' %}"
-         class="px-3 py-2 rounded-xl hover:bg-white/10 transition flex items-center gap-2">
+         class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl hover:bg-white/10 transition flex items-center gap-2">
         {% trans "Корзина" %}
         <span class="min-w-6 h-6 px-2 rounded-full text-xs bg-white/10 border border-white/20 flex items-center justify-center">
           <span id="cartCount">{{ cart_count|default:0 }}</span>
         </span>
       </a>
+
       <!-- THEME -->
-      <button id="themeBtn"
-              type="button"
-              class="px-3 py-2 rounded-xl
-                     bg-white/20 border border-white/30
-                     hover:bg-white/30 transition
-                     flex items-center justify-center
-                     text-white">
-        <span id="themeIcon"
-              class="inline-flex w-5 h-5 text-white"></span>
+      <button id="themeBtn" type="button"
+              aria-label="{% trans 'Переключить тему' %}"
+              class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl
+                     bg-white/20 border border-white/30 hover:bg-white/30 transition
+                     flex items-center justify-center text-white">
+        <span id="themeIcon" class="inline-flex w-5 h-5"></span>
       </button>
-
-
 
       <!-- LANGUAGE -->
-    <div class="lang-btn relative">
-      <button id="langBtn"
-              type="button"
-              class="
-                flex items-center gap-2
-                px-3 py-2 rounded-xl
-                bg-white/20 border border-white/30
-                text-white
-                hover:bg-white/30 transition
-              ">
-        🌐 {{ LANGUAGE_CODE|upper }}
-      </button>
+      <div class="relative">
+        <button id="langBtn" type="button"
+                aria-label="{% trans 'Выбор языка' %}"
+                aria-haspopup="true"
+                aria-expanded="false"
+                class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl
+                       bg-white/20 border border-white/30 hover:bg-white/30 transition
+                       text-white flex items-center gap-2">
+          🌐 {{ LANGUAGE_CODE|upper }}
+          <svg id="langArrow" class="w-4 h-4 transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
+          </svg>
+        </button>
 
-      <div id="lang-menu"
-           class="
-             hidden absolute right-0 mt-2 w-44 rounded-xl
-             bg-white text-slate-900
-             border border-sky-300
-             shadow-xl overflow-hidden
-             z-50
-           ">
-        <form action="{% url 'set_language' %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {# ВАЖНО: без hidden (иначе не анимируется) #}
+        <div id="langMenu"
+     class="absolute right-0 mt-2 w-44 rounded-xl !bg-white !text-slate-900
+            border border-sky-300 shadow-xl overflow-hidden z-50
+            opacity-0 translate-y-2 scale-95 pointer-events-none
+            transition-all duration-200 ease-out">
+            <form action="{% url 'set_language' %}" method="post" class="!bg-white !text-slate-900">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
-          <button name="language" value="ru"
-                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
-            🇷🇺 Русский
-          </button>
+              <button type="submit" name="language" value="ru"
+                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
+                🇷🇺 Русский
+              </button>
 
-          <button name="language" value="uz"
-                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
-            🇺🇿 Ўзбекча
-          </button>
+              <button type="submit" name="language" value="uz"
+                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
+                🇺🇿 Ўзбекча
+              </button>
 
-          <button name="language" value="uz-latn"
-                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
-            🇺🇿 Oʻzbekcha
-          </button>
-        </form>
+              <button type="submit" name="language" value="uz-latn"
+                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
+                🇺🇿 Oʻzbekcha
+              </button>
+            </form>
+          </div>
+
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-
-
     </nav>
   </div>
 </header>
 
 <!-- ================= HERO ================= -->
-<section class="max-w-6xl mx-auto px-4 pt-5">
+<section class="max-w-6xl mx-auto px-4 pt-4 sm:pt-5">
   {% block hero %}{% endblock %}
 </section>
 
 <!-- ================= CONTENT ================= -->
-<main class="max-w-6xl mx-auto px-4 pt-6 pb-24">
+<main class="max-w-6xl mx-auto px-4 pt-5 pb-[calc(6rem+env(safe-area-inset-bottom))]">
   {% block content %}{% endblock %}
 </main>
 
@@ -154,32 +143,23 @@
   <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-white/60 flex flex-col sm:flex-row justify-between gap-2">
     <div>© {{ now|date:"Y" }} MEZON Market</div>
     <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-  <span>{% trans "Техподдержка" %}:</span>
-  <a href="tel:+998942910023"
-     class="text-white underline hover:text-white/80 transition">
-    +998 94 291-00-23
-  </a>
-
-  <span class="hidden sm:inline text-white/40">•</span>
-
-  <a href="https://t.me/mezonmarketuz"
-     target="_blank"
-     rel="noopener"
-     class="text-white underline hover:text-white/80 transition flex items-center gap-1">
-    <svg xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 24 24"
-         fill="currentColor"
-         class="w-4 h-4">
-      <path d="M9.036 15.454 8.8 19.07c.341 0 .488-.146.665-.32l1.596-1.52 3.306 2.42c.607.336 1.04.159 1.197-.562l2.168-10.19c.21-.97-.35-1.35-.94-1.12L3.11 10.05c-.92.36-.91.86-.17 1.09l3.46 1.08 8.03-5.07c.38-.23.73-.11.44.14"/>
-    </svg>
-    @MEZON_support
-  </a>
-  </div>
+      <span>{% trans "Техподдержка" %}:</span>
+      <a href="tel:+998942910023" class="text-white underline hover:text-white/80 transition">
+        +998 94 291-00-23
+      </a>
+      <span class="hidden sm:inline text-white/40">•</span>
+      <a href="https://t.me/mezonmarketuz" target="_blank" rel="noopener"
+         class="text-white underline hover:text-white/80 transition flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+          <path d="M9.036 15.454 8.8 19.07c.341 0 .488-.146.665-.32l1.596-1.52 3.306 2.42c.607.336 1.04.159 1.197-.562l2.168-10.19c.21-.97-.35-1.35-.94-1.12L3.11 10.05c-.92.36-.91.86-.17 1.09l3.46 1.08 8.03-5.07c.38-.23.73-.11.44.14"/>
+        </svg>
+        @MEZON_support
+      </a>
     </div>
+  </div>
 </footer>
 
-
-<!-- ================= TOAST ================= -->
+<!-- ================= TOAST (один) ================= -->
 <div id="toast"
      class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[calc(100%-24px)] max-w-md
             pointer-events-none opacity-0 translate-y-3 transition duration-300
@@ -187,43 +167,39 @@
   <span id="toastText"></span>
 </div>
 
-<!-- ================= TOAST ================= -->
-<div id="toast"
-     class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[calc(100%-24px)] max-w-md
-            pointer-events-none opacity-0 translate-y-3 transition duration-300
-            rounded-2xl px-4 py-3 text-sm shadow-lg backdrop-blur border">
-  <span id="toastText"></span>
-</div>
-
 <!-- ================= JS ================= -->
 <script>
-  // ===== Language dropdown =====
   (function () {
     const btn = document.getElementById("langBtn");
-    const menu = document.getElementById("lang-menu");
+    const menu = document.getElementById("langMenu"); // ВАЖНО: langMenu
+    const arrow = document.getElementById("langArrow");
     if (!btn || !menu) return;
 
-    function openMenu() { menu.classList.remove("hidden"); }
-    function closeMenu() { menu.classList.add("hidden"); }
-    function toggleMenu() {
-      menu.classList.contains("hidden") ? openMenu() : closeMenu();
+    function openMenu() {
+      btn.setAttribute("aria-expanded", "true");
+      menu.classList.remove("opacity-0", "translate-y-2", "scale-95", "pointer-events-none");
+      menu.classList.add("opacity-100", "translate-y-0", "scale-100");
+      if (arrow) arrow.classList.add("rotate-180");
+    }
+
+    function closeMenu() {
+      btn.setAttribute("aria-expanded", "false");
+      menu.classList.add("opacity-0", "translate-y-2", "scale-95", "pointer-events-none");
+      menu.classList.remove("opacity-100", "translate-y-0", "scale-100");
+      if (arrow) arrow.classList.remove("rotate-180");
     }
 
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleMenu();
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+      isOpen ? closeMenu() : openMenu();
     });
 
-    menu.addEventListener("click", (e) => {
-      // чтобы клики по пунктам языка не закрывались до отправки формы
-      e.stopPropagation();
-    });
-
-    document.addEventListener("click", () => closeMenu());
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMenu();
-    });
+    menu.addEventListener("click", (e) => e.stopPropagation());
+    document.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+    window.addEventListener("scroll", closeMenu, { passive: true });
   })();
 
   // ===== Theme toggle (dark/light) =====
@@ -395,11 +371,35 @@
     if (btn.disabled) return;
     addToCart(btn);
   });
+    // ===== Header hide on scroll down / show on scroll up =====
+  (function () {
+    const header = document.getElementById("siteHeader");
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+
+    function onScroll() {
+      const y = window.scrollY || 0;
+      const goingDown = y > lastY;
+      const pastThreshold = y > 80;
+
+      if (goingDown && pastThreshold) header.classList.add("-translate-y-full");
+      else header.classList.remove("-translate-y-full");
+
+      lastY = y;
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+
 </script>
 
 </body>
-
-
-</body>
-
 </html>

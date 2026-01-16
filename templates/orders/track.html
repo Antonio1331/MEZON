@@ -18,10 +18,12 @@
     <form method="post" class="space-y-3">
       {% csrf_token %}
 
-      <input name="order_id" inputmode="numeric" placeholder="{% trans 'Номер заказа' %}"
+      <input name="order_id" inputmode="numeric" autocomplete="off" required
+             placeholder="{% trans 'Номер заказа' %}"
              class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
 
-      <input name="phone" placeholder="{% trans 'Телефон' %}"
+      <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required
+             placeholder="{% trans 'Телефон' %}"
              class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
 
       <button class="btn-brand w-full text-lg">
