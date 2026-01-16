@@ -28,7 +28,8 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       {% if product.image %}
-        <img src="{{ product.image.url }}" class="w-full h-80 object-cover rounded-3xl" alt="{{ product.name }}">
+        <img src="{{ product.image.url }}" decoding="async"
+             class="w-full h-80 object-cover rounded-3xl" alt="{{ product.name }}">
       {% else %}
         <div class="w-full h-80 rounded-3xl bg-white/5"></div>
       {% endif %}

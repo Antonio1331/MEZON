@@ -32,6 +32,8 @@
       <input
         type="text"
         name="q"
+        inputmode="search"
+        autocomplete="off"
         value="{{ q|default:'' }}"
         placeholder="{% trans 'Поиск...' %}"
         class="w-full md:w-80 px-4 py-2 rounded-2xl outline-none"
@@ -78,7 +80,8 @@
       <div class="glass p-4 rounded-3xl">
         <a href="{% url 'product' product.id %}" class="block">
           {% if product.image %}
-            <img src="{{ product.image.url }}" class="w-full h-44 object-cover rounded-2xl" alt="{{ product.name }}">
+            <img src="{{ product.image.url }}" loading="lazy" decoding="async"
+                 class="w-full h-44 object-cover rounded-2xl" alt="{{ product.name }}">
           {% else %}
             <div class="w-full h-44 rounded-2xl bg-white/5"></div>
           {% endif %}
@@ -147,7 +150,8 @@
     <div class="glass p-4 rounded-3xl">
       <a href="{% url 'product' product.id %}" class="block">
       {% if product.image %}
-        <img src="{{ product.image.url }}" class="w-full h-44 object-cover rounded-2xl" alt="{{ product.name }}">
+        <img src="{{ product.image.url }}" loading="lazy" decoding="async"
+             class="w-full h-44 object-cover rounded-2xl" alt="{{ product.name }}">
       {% else %}
         <div class="w-full h-44 rounded-2xl bg-white/5"></div>
       {% endif %}
