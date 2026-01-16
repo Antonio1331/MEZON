@@ -19,10 +19,10 @@
         <div class="flex justify-between items-center gap-3">
           <div class="min-w-0">
             <div class="font-bold text-white truncate">{{ i.p.name }}</div>
-            <div class="text-white/60 text-sm">
+            <div class="text-muted text-sm">
               {{ i.qty }} × {{ i.p.price }} {% trans "сум" %}
             </div>
-            <div class="text-white/60 text-xs mt-1">
+            <div class="text-muted text-xs mt-1">
               {% if i.p.stock|default:0 > 0 %}
                 <span class="text-green-300">{% trans "В наличии" %}</span>
               {% else %}
@@ -71,7 +71,7 @@
     {% endif %}
     </div>
   {% else %}
-    <div class="glass p-6 text-white/60">
+    <div class="glass p-6 text-muted">
       {% trans "Корзина пуста" %}
     </div>
   {% endif %}

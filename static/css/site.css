@@ -7,6 +7,9 @@
   --muted: rgba(255,255,255,0.70);
   --accent: #7cdd7c;
   --accent2:#58c7ff;
+
+  /* доп. переменные для аккуратного UI */
+  --shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
 
 body{
@@ -31,8 +34,9 @@ body{
   font-weight: 700;
   border-radius: 14px;
   padding: 10px 14px;
-  transition: transform .08s ease;
+  transition: transform .08s ease, filter .15s ease;
 }
+.btn-brand:hover{ filter: brightness(1.02); }
 .btn-brand:active{ transform: scale(0.98); }
 
 .badge-soft{
@@ -47,4 +51,201 @@ body{
 .price{
   font-size: 18px;
   font-weight: 800;
+}
+
+/* ===== SALE UI ===== */
+.sale-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  background: rgba(255, 82, 82, 0.14);
+  border: 1px solid rgba(255, 82, 82, 0.35);
+}
+
+.price-old{
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(255,255,255,0.35);
+}
+
+.price-new{
+  font-size: 20px;
+  font-weight: 900;
+  color: #ff3b3b;
+}
+
+.icon-bolt{
+  width:14px;
+  height:14px;
+  display:inline-block;
+}
+
+/* =========================================================
+   LIGHT THEME — делаем блоки темнее и текст читаемым
+   ========================================================= */
+html[data-theme="light"]{
+  --bg: #eef3f8;                     /* общий фон чуть темнее */
+  --card: rgba(15, 23, 42, 0.10);    /* glass заметнее */
+  --card2: rgba(15, 23, 42, 0.14);
+  --stroke: rgba(15, 23, 42, 0.18);
+
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.65);
+
+  /* кнопки/акценты можно оставить зел/голуб, но лучше синюю базу */
+  --accent: #22c55e;
+  --accent2:#38bdf8;
+
+  --shadow: 0 12px 30px rgba(15,23,42,0.10);
+}
+
+html[data-theme="light"] body{
+  background:
+    radial-gradient(1000px 600px at 20% 10%, rgba(56,189,248,0.16), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(34,197,94,0.10), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+html[data-theme="light"] .glass{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow:
+    0 10px 28px rgba(15,23,42,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+/* вторичные “бледные” тексты из tailwind-подобных классов */
+html[data-theme="light"] .text-white\/70,
+html[data-theme="light"] .text-white\/60,
+html[data-theme="light"] .text-white\/50{
+  color: var(--muted) !important;
+}
+
+/* старая цена в light: корректный цвет зачёркивания */
+html[data-theme="light"] .price-old{
+  text-decoration-color: rgba(0,0,0,0.35);
+}
+
+/* =========================================================
+   HEADER + CONTROLS (один компактный блок без дублей)
+   ========================================================= */
+
+/* все кнопки/ссылки на синем хедере — белые */
+header a, header button{ color:#fff; }
+
+/* pill-стиль для кликабельных элементов справа */
+header #themeBtn,
+header #langBtn,
+header a.badge-soft,
+header a[href]{
+  background: rgba(255,255,255,0.20);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 14px;
+}
+
+/* hover */
+header #themeBtn:hover,
+header #langBtn:hover,
+header a.badge-soft:hover,
+header a[href]:hover{
+  background: rgba(255,255,255,0.28);
+}
+
+/* корзина badge (0) если у тебя rounded-full */
+header .rounded-full{
+  color:#fff !important;
+  background: rgba(255,255,255,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.30) !important;
+}
+
+/* dropdown языка (всегда светлый и читаемый) */
+header #lang-menu{
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(2, 132, 199, 0.45);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+}
+
+/* пункты dropdown */
+header #lang-menu button{
+  color: #0f172a;
+}
+header #lang-menu button:hover{
+  background: rgba(2, 132, 199, 0.10);
+}
+
+/* =========================================================
+   SEARCH — видимый и аккуратный в light и dark
+   ========================================================= */
+input[name="q"]{
+  background: rgba(255,255,255,0.10);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.20);
+}
+input[name="q"]::placeholder{
+  color: rgba(255,255,255,0.55);
+}
+
+html[data-theme="light"] input[name="q"]{
+  background: #ffffff;
+  color: #0f172a;
+  border: 2px solid #0284c7; /* синяя рамка */
+}
+html[data-theme="light"] input[name="q"]::placeholder{
+  color: rgba(15,23,42,0.45);
+}
+
+/* ===== Logo: remove focus/active highlight ===== */
+header a.logo,
+header a.logo:focus,
+header a.logo:focus-visible,
+header a.logo:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* =========================================================
+   FOOTER — visibility fix for LIGHT theme
+   ========================================================= */
+
+/* Сам футер в светлой теме */
+html[data-theme="light"] footer{
+  background: rgba(15, 23, 42, 0.08); /* темнее фона страницы */
+  border-top: 1px solid rgba(15, 23, 42, 0.15);
+}
+
+/* Весь текст футера */
+html[data-theme="light"] footer,
+html[data-theme="light"] footer span,
+html[data-theme="light"] footer div,
+html[data-theme="light"] footer p{
+  color: rgba(15, 23, 42, 0.85) !important;
+}
+
+/* Ссылки (телефон, Telegram) */
+html[data-theme="light"] footer a{
+  color: #0284c7 !important;          /* sky-600 */
+  font-weight: 600;
+}
+
+/* Hover для ссылок */
+html[data-theme="light"] footer a:hover{
+  color: #0369a1 !important;          /* sky-700 */
+  text-decoration: underline;
+}
+/* ===== Text colors (theme-aware) ===== */
+.text-main {
+  color: var(--text);
+}
+
+.text-muted {
+  color: var(--muted);
 }

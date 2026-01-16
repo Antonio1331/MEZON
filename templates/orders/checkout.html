@@ -12,37 +12,50 @@
       <div class="mb-3 text-red-400">{{ error }}</div>
     {% endif %}
 
-{% if has_oos %}
-  <div class="mb-3 text-red-400">
-    {% trans "Некоторые товары в корзине закончились. Вернитесь в корзину и удалите их, затем попробуйте снова." %}
-  </div>
-{% endif %}
-
+    {% if has_oos %}
+      <div class="mb-3 text-red-400">
+        {% trans "Некоторые товары в корзине закончились. Вернитесь в корзину и удалите их, затем попробуйте снова." %}
+      </div>
+    {% endif %}
 
     <form method="post" class="space-y-3">
       {% csrf_token %}
 
-      <input name="name" placeholder="{% trans 'Ваше имя' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+      <input
+        name="name"
+        placeholder="{% trans 'Ваше имя' %}"
+        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
+      >
 
-      <input name="phone" placeholder="{% trans 'Телефон' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+      <input
+        name="phone"
+        placeholder="{% trans 'Телефон' %}"
+        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
+      >
 
-      <input name="address" placeholder="{% trans 'Адрес доставки' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+      <input
+        name="address"
+        id="id_address"
+        placeholder="{% trans 'Адрес доставки' %}"
+        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
+      >
 
-      <input name="comment" placeholder="{% trans 'Комментарий (необязательно)' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+      <input
+        name="comment"
+        placeholder="{% trans 'Комментарий (необязательно)' %}"
+        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
+      >
 
       <!-- Гео скрытые поля -->
       <input type="hidden" name="lat" id="lat">
       <input type="hidden" name="lng" id="lng">
 
       <div class="space-y-2">
-        <button type="button" class="btn-brand w-full" id="geoBtn">
+        <button type="button" id="geoBtn" class="btn-brand">
           {% trans "Определить местоположение" %}
         </button>
-        <div id="geoStatus" class="text-white/70 text-sm"></div>
+
+        <div id="geoStatus" class="text-sm text-white/70"></div>
       </div>
 
       <div class="text-white/70 text-sm">
@@ -50,47 +63,62 @@
       </div>
 
       {% if has_oos %}
-      <button class="btn-brand w-full text-lg opacity-60 cursor-not-allowed" disabled>
-        {% trans "Оформить заказ" %}
-      </button>
-      <div class="text-white/60 text-xs mt-2">
-        {% trans "Сначала удалите отсутствующие товары из корзины." %}
-      </div>
-    {% else %}
-      <button class="btn-brand w-full text-lg">
-        {% trans "Оформить заказ" %}
-      </button>
-    {% endif %}
+        <button class="btn-brand w-full text-lg opacity-60 cursor-not-allowed" disabled>
+          {% trans "Оформить заказ" %}
+        </button>
+        <div class="text-white/60 text-xs">
+          {% trans "Сначала удалите отсутствующие товары из корзины." %}
+        </div>
+      {% else %}
+        <button class="btn-brand w-full text-lg">
+          {% trans "Оформить заказ" %}
+        </button>
+      {% endif %}
     </form>
   </div>
 </div>
 
 <script>
-  const T_GEO_REQUEST = "{% trans 'Запрашиваем геолокацию...' %}";
-  const T_GEO_NOT_SUPPORTED = "{% trans 'Геолокация не поддерживается браузером.' %}";
-  const T_GEO_OK = "{% trans '✅ Местоположение получено' %}";
-  const T_GEO_FAIL = "{% trans 'Не удалось получить геолокацию (разрешите доступ).' %}";
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("geoBtn");
+  const statusEl = document.getElementById("geoStatus");
+  const addressInput = document.getElementById("id_address");
+  const latEl = document.getElementById("lat");
+  const lngEl = document.getElementById("lng");
 
-  document.getElementById("geoBtn").onclick = () => {
-    const geoStatus = document.getElementById("geoStatus");
-    geoStatus.textContent = T_GEO_REQUEST;
+  if (!btn) return;
 
+  btn.addEventListener("click", () => {
     if (!navigator.geolocation) {
-      geoStatus.textContent = T_GEO_NOT_SUPPORTED;
+      if (statusEl) statusEl.textContent = "{% trans 'Геолокация не поддерживается браузером.' %}";
       return;
     }
 
+    if (statusEl) statusEl.textContent = "{% trans 'Запрашиваем геолокацию...' %}";
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        document.getElementById("lat").value = pos.coords.latitude;
-        document.getElementById("lng").value = pos.coords.longitude;
-        geoStatus.textContent = T_GEO_OK;
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        if (latEl) latEl.value = lat;
+        if (lngEl) lngEl.value = lng;
+
+        // Минимум: пишем координаты в адрес (дальше можно заменить на реальный адрес через API)
+        if (addressInput) addressInput.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+        if (statusEl) statusEl.textContent = "{% trans '✅ Местоположение получено' %}";
       },
-      () => {
-        geoStatus.textContent = T_GEO_FAIL;
+      (err) => {
+        let msg = "{% trans 'Не удалось получить геолокацию (разрешите доступ).' %}";
+        if (err.code === 1) msg = "{% trans 'Доступ к геолокации запрещён (разрешите доступ).' %}";
+        if (err.code === 2) msg = "{% trans 'Геолокация недоступна (нет сети/сигнала).' %}";
+        if (err.code === 3) msg = "{% trans 'Истекло время ожидания геолокации.' %}";
+        if (statusEl) statusEl.textContent = msg;
       },
-      { enableHighAccuracy: true, timeout: 10000 }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
-  };
+  });
+});
 </script>
 {% endblock %}

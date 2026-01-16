@@ -18,6 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ("name_ru", "name_uz", "name_uz_latn")
     list_editable = ("price", "stock")
 
+    @admin.display(description="Фото")
     def thumb(self, obj):
         if obj.image:
             return format_html(
@@ -26,11 +27,10 @@ class ProductAdmin(admin.ModelAdmin):
             )
         return "—"
 
-    thumb.short_description = "Фото"
-
+    @admin.display(description="Наличие")
     def in_stock_badge(self, obj):
-        if obj.in_stock:
-            return format_html('<span style="color:#16a34a;font-weight:600;">OK</span>')
-        return format_html('<span style="color:#dc2626;font-weight:600;">0</span>')
-
-    in_stock_badge.short_description = "Наличие"
+        return format_html(
+            '<span style="color:{};font-weight:700;">{}</span>',
+            "#16a34a" if (obj.stock or 0) > 0 else "#ef4444",
+            "В наличии" if (obj.stock or 0) > 0 else "Нет",
+        )

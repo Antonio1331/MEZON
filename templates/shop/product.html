@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block title %}
   {{ product.name }} — {% trans "купить" %} | {% trans "MEZON Market" %}
 {% endblock %}
@@ -36,14 +36,14 @@
 
     <div>
       <div class="text-2xl md:text-3xl font-extrabold">{{ product.name }}</div>
-      <div class="mt-2 text-white/70">{{ product.description }}</div>
+      <div class="mt-2 text-muted">{{ product.description }}</div>
 
       <div class="mt-5 flex items-end justify-between">
         <div class="text-3xl font-extrabold">{{ product.price }}</div>
         {% if product.stock|default:0 > 0 %}
-          <div class="text-sm text-white/70">{% trans "В наличии" %}: <b>{{ product.stock }}</b></div>
+          <div class="text-sm text-muted">{% trans "В наличии" %}: <b>{{ product.stock }}</b></div>
         {% else %}
-          <div class="text-sm text-white/70"><b>{% trans "Нет в наличии" %}</b></div>
+          <div class="text-sm text-muted"><b>{% trans "Нет в наличии" %}</b></div>
         {% endif %}
       </div>
 
@@ -69,7 +69,7 @@
         {% endif %}
       </div>
 
-      <div class="mt-3 text-white/60 text-xs">
+      <div class="mt-3 text-muted text-xs">
         {% trans "Если товара нет в наличии — добавить в корзину нельзя." %}
       </div>
     </div>

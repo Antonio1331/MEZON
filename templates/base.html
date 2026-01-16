@@ -1,6 +1,6 @@
 {% load static i18n %}
 <!doctype html>
-<html lang="{{ LANGUAGE_CODE|default:'ru' }}">
+<html lang="{{ LANGUAGE_CODE|default:'uz' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,14 +37,14 @@
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
 
-<body class="min-h-screen bg-black text-white">
+<body class="min-h-screen">
 
 <!-- ================= HEADER ================= -->
-<header class="sticky top-0 z-40 bg-black/80 backdrop-blur border-b border-white/10">
+<header class="sticky top-0 z-40 bg-sky-700/90 backdrop-blur border-b border-white/15">
   <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
     <!-- LOGO -->
-    <a href="{% url 'home' %}" class="flex items-center gap-3 min-w-0">
+    <a href="{% url 'home' %}" class="logo flex items-center gap-3">
       <img src="{% static 'img/logo.jpg' %}"
            alt="{% trans 'MEZON Market' %}"
            class="w-10 h-10 rounded-xl object-cover border border-white/20">
@@ -76,25 +76,64 @@
           <span id="cartCount">{{ cart_count|default:0 }}</span>
         </span>
       </a>
+      <!-- THEME -->
+      <button id="themeBtn"
+              type="button"
+              class="px-3 py-2 rounded-xl
+                     bg-white/20 border border-white/30
+                     hover:bg-white/30 transition
+                     flex items-center justify-center
+                     text-white">
+        <span id="themeIcon"
+              class="inline-flex w-5 h-5 text-white"></span>
+      </button>
+
+
 
       <!-- LANGUAGE -->
-      <div class="relative">
-        <button id="langBtn"
-                class="px-3 py-2 rounded-xl bg-white/5 border border-white/20 hover:bg-white/10 transition">
-          🌐 {{ LANGUAGE_CODE|upper }}
-        </button>
+    <div class="lang-btn relative">
+      <button id="langBtn"
+              type="button"
+              class="
+                flex items-center gap-2
+                px-3 py-2 rounded-xl
+                bg-white/20 border border-white/30
+                text-white
+                hover:bg-white/30 transition
+              ">
+        🌐 {{ LANGUAGE_CODE|upper }}
+      </button>
 
-        <div id="langMenu"
-             class="hidden absolute right-0 mt-2 w-44 rounded-xl bg-black border border-white/10 shadow-xl">
-          <form action="{% url 'set_language' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <button name="language" value="ru" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇷🇺 Русский</button>
-            <button name="language" value="uz" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇺🇿 Ўзбекча</button>
-            <button name="language" value="uz-latn" class="block w-full text-left px-4 py-2 hover:bg-white/10">🇺🇿 Oʻzbekcha</button>
-          </form>
-        </div>
+      <div id="lang-menu"
+           class="
+             hidden absolute right-0 mt-2 w-44 rounded-xl
+             bg-white text-slate-900
+             border border-sky-300
+             shadow-xl overflow-hidden
+             z-50
+           ">
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+          <button name="language" value="ru"
+                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
+            🇷🇺 Русский
+          </button>
+
+          <button name="language" value="uz"
+                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
+            🇺🇿 Ўзбекча
+          </button>
+
+          <button name="language" value="uz-latn"
+                  class="block w-full text-left px-4 py-2 hover:bg-sky-100 transition">
+            🇺🇿 Oʻzbekcha
+          </button>
+        </form>
       </div>
+    </div>
+
 
     </nav>
   </div>
@@ -160,19 +199,97 @@
 <script>
   // ===== Language dropdown =====
   (function () {
-    const langBtn = document.getElementById("langBtn");
-    const langMenu = document.getElementById("langMenu");
-    if (!langBtn || !langMenu) return;
+    const btn = document.getElementById("langBtn");
+    const menu = document.getElementById("lang-menu");
+    if (!btn || !menu) return;
 
-    langBtn.addEventListener("click", (e) => {
+    function openMenu() { menu.classList.remove("hidden"); }
+    function closeMenu() { menu.classList.add("hidden"); }
+    function toggleMenu() {
+      menu.classList.contains("hidden") ? openMenu() : closeMenu();
+    }
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      langMenu.classList.toggle("hidden");
+      toggleMenu();
     });
 
-    document.addEventListener("click", () => {
-      langMenu.classList.add("hidden");
+    menu.addEventListener("click", (e) => {
+      // чтобы клики по пунктам языка не закрывались до отправки формы
+      e.stopPropagation();
+    });
+
+    document.addEventListener("click", () => closeMenu());
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
     });
   })();
+
+  // ===== Theme toggle (dark/light) =====
+  (function () {
+    const STORAGE_KEY = "theme";
+    const root = document.documentElement;
+    const btn = document.getElementById("themeBtn");
+    const icon = document.getElementById("themeIcon");
+    if (!btn || !icon) return;
+
+    function setIcon(theme){
+  if (theme === "light") {
+    // СОЛНЦЕ
+    icon.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="white"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           class="w-5 h-5">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>`;
+  } else {
+    // ЛУНА
+    icon.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="white"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           class="w-5 h-5">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3
+                 7 7 0 0 0 21 12.79z"/>
+      </svg>`;
+  }
+}
+
+
+    function applyTheme(theme){
+      root.setAttribute("data-theme", theme);
+      setIcon(theme);
+    }
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const initial = saved || "dark";
+    applyTheme(initial);
+
+    btn.addEventListener("click", () => {
+      const next = (root.getAttribute("data-theme") === "light") ? "dark" : "light";
+      localStorage.setItem(STORAGE_KEY, next);
+      applyTheme(next);
+    });
+  })();
+
 
   // ===== Toast (success/error) =====
   const toastEl = document.getElementById("toast");
