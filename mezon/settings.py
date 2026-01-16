@@ -14,7 +14,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-9rdl^4-y*lacl=ax0a3_7_@q!^4eniu$!kkmx9azv!xp#wm97d"
 
 DEBUG = True
-<<<<<<< Updated upstream
 ALLOWED_HOSTS = ["mezon-market.uz", "www.mezon-market.uz", "45.92.173.192", "127.0.0.1"]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -22,8 +21,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.mezon-market.uz",
 ]
 
-=======
->>>>>>> Stashed changes
 # иногда нужно за прокси (ngrok):
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
