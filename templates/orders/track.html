@@ -5,14 +5,16 @@
 
 {% block content %}
 <div class="mt-6 max-w-xl mx-auto">
-  <div class="glass p-6">
+  <div class="glass p-5 sm:p-6 rounded-3xl">
     <h1 class="text-2xl font-extrabold mb-2">{% trans "Мой заказ" %}</h1>
     <div class="text-white/70 text-sm mb-4">
       {% trans "Введите номер заказа и телефон, указанный при оформлении." %}
     </div>
 
     {% if error %}
-      <div class="mb-3 text-red-400">{{ error }}</div>
+      <div class="mb-3 text-red-300 bg-red-500/10 border border-red-400/30 rounded-2xl p-3">
+        {{ error }}
+      </div>
     {% endif %}
 
     <form method="post" class="space-y-3">
@@ -20,13 +22,13 @@
 
       <input name="order_id" inputmode="numeric" autocomplete="off" required
              placeholder="{% trans 'Номер заказа' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+             class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none">
 
       <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required
              placeholder="{% trans 'Телефон' %}"
-             class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15">
+             class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none">
 
-      <button class="btn-brand w-full text-lg">
+      <button class="btn-brand w-full text-lg py-3 rounded-2xl">
         {% trans "Показать заказ" %}
       </button>
     </form>
