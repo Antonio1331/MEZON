@@ -5,27 +5,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {# ===== SEO BASIC ===== #}
   <title>{% block title %}{% trans "MEZON Market" %}{% endblock %}</title>
-  <meta name="description"
-        content="{% block meta_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
-  <link rel="canonical" href="https://mezon-market.uz{{ request.path }}">
+  <meta name="description" content="{% block meta_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
+  <link rel="canonical" href="https://mezon-market.uz{{ request.get_full_path }}">
 
-  {# ===== OPEN GRAPH ===== #}
+  <!-- Open Graph -->
   <meta property="og:site_name" content="{% trans 'MEZON Market' %}">
   <meta property="og:title" content="{% block og_title %}{% trans 'MEZON Market' %}{% endblock %}">
   <meta property="og:description" content="{% block og_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
-  <meta property="og:url" content="https://mezon-market.uz{{ request.path }}">
+  <meta property="og:url" content="https://mezon-market.uz{{ request.get_full_path }}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:image" content="{% block og_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
 
-  {# ===== TWITTER ===== #}
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block tw_title %}{% trans 'MEZON Market' %}{% endblock %}">
   <meta name="twitter:description" content="{% block tw_description %}{% trans 'Свежие продукты рядом. Быстрая доставка и удобный заказ.' %}{% endblock %}">
   <meta name="twitter:image" content="{% block tw_image %}https://mezon-market.uz{% static 'img/logo.jpg' %}{% endblock %}">
 
-  {# Tailwind + твой CSS #}
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
@@ -38,7 +35,7 @@
                transition-transform duration-300 will-change-transform">
   <div class="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-2">
 
-    <!-- LOGO (компактнее на мобиле) -->
+    <!-- LOGO -->
     <a href="{% url 'home' %}" class="flex items-center gap-2 min-w-0">
       <img src="{% static 'img/logo.jpg' %}"
            alt="{% trans 'MEZON Market' %}"
@@ -49,7 +46,7 @@
       </div>
     </a>
 
-    <!-- NAV: все кнопки видны — перенос на новую строку -->
+    <!-- NAV -->
     <nav class="flex flex-wrap justify-end items-center gap-1.5 sm:gap-2 text-[13px] sm:text-base max-w-[70%]">
       <a href="{% url 'home' %}"
          class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl hover:bg-white/10 transition">
@@ -78,52 +75,24 @@
         <span id="themeIcon" class="inline-flex w-5 h-5"></span>
       </button>
 
-      <!-- LANGUAGE -->
       <div class="relative">
-        <button id="langBtn" type="button"
-                aria-label="{% trans 'Выбор языка' %}"
-                aria-haspopup="true"
-                aria-expanded="false"
-                class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl
-                       bg-white/20 border border-white/30 hover:bg-white/30 transition
-                       text-white flex items-center gap-2">
-          🌐 {{ LANGUAGE_CODE|upper }}
-          <svg id="langArrow" class="w-4 h-4 transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
-          </svg>
-        </button>
+  <button id="langBtn" type="button" class="px-2.5 py-1.5 bg-white/20 text-white flex items-center gap-2 rounded-xl">
+    🌐 {{ LANGUAGE_CODE|upper }}
+  </button>
 
-        {# ВАЖНО: без hidden (иначе не анимируется) #}
-        <div id="langMenu"
-     class="absolute right-0 mt-2 w-44 rounded-xl !bg-white !text-slate-900
-            border border-sky-300 shadow-xl overflow-hidden z-50
-            opacity-0 translate-y-2 scale-95 pointer-events-none
-            transition-all duration-200 ease-out">
-            <form action="{% url 'set_language' %}" method="post" class="!bg-white !text-slate-900">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  <div id="langMenu" class="absolute right-0 mt-2 w-44 rounded-xl bg-white text-gray-700 border border-sky-200 shadow-xl overflow-hidden z-50 opacity-0 translate-y-2 scale-95 pointer-events-none transition-all duration-200 ease-out">
+    <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+<button type="submit" name="language" value="ru" class="w-full px-4 py-2 text-gray-700 hover:bg-sky-100 text-left whitespace-nowrap">🇷🇺 Русский</button>
+<button type="submit" name="language" value="uz" class="w-full px-4 py-2 text-gray-700 hover:bg-sky-100 text-left whitespace-nowrap">🇺🇿 Ўзбекча</button>
+<button type="submit" name="language" value="uz-latn" class="w-full px-4 py-2 text-gray-700 hover:bg-sky-100 text-left whitespace-nowrap">🇺🇿 Oʻzbekcha</button>
 
-              <button type="submit" name="language" value="ru"
-                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
-                🇷🇺 Русский
-              </button>
+    </form>
+  </div>
+</div>
 
-              <button type="submit" name="language" value="uz"
-                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
-                🇺🇿 Ўзбекча
-              </button>
 
-              <button type="submit" name="language" value="uz-latn"
-                      class="w-full px-4 py-2 hover:bg-sky-100 transition text-left whitespace-nowrap !text-slate-900">
-                🇺🇿 Oʻzbekcha
-              </button>
-            </form>
-          </div>
-
-            </button>
-          </form>
-        </div>
-      </div>
     </nav>
   </div>
 </header>
@@ -142,11 +111,10 @@
 <footer class="border-t border-white/10">
   <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-white/60 flex flex-col sm:flex-row justify-between gap-2">
     <div>© {{ now|date:"Y" }} MEZON Market</div>
+
     <div class="flex flex-col sm:flex-row sm:items-center gap-2">
       <span>{% trans "Техподдержка" %}:</span>
-      <a href="tel:+998942910023" class="text-white underline hover:text-white/80 transition">
-        +998 94 291-00-23
-      </a>
+      <a href="tel:+998942910023" class="text-white underline hover:text-white/80 transition">+998 94 291-00-23</a>
       <span class="hidden sm:inline text-white/40">•</span>
       <a href="https://t.me/mezonmarketuz" target="_blank" rel="noopener"
          class="text-white underline hover:text-white/80 transition flex items-center gap-1">
@@ -159,7 +127,7 @@
   </div>
 </footer>
 
-<!-- ================= TOAST (один) ================= -->
+<!-- ================= TOAST ================= -->
 <div id="toast"
      class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[calc(100%-24px)] max-w-md
             pointer-events-none opacity-0 translate-y-3 transition duration-300
@@ -167,25 +135,25 @@
   <span id="toastText"></span>
 </div>
 
-<!-- ================= JS ================= -->
 <script>
+  // ===== Language menu =====
   (function () {
     const btn = document.getElementById("langBtn");
-    const menu = document.getElementById("langMenu"); // ВАЖНО: langMenu
+    const menu = document.getElementById("langMenu");
     const arrow = document.getElementById("langArrow");
     if (!btn || !menu) return;
 
     function openMenu() {
       btn.setAttribute("aria-expanded", "true");
-      menu.classList.remove("opacity-0", "translate-y-2", "scale-95", "pointer-events-none");
-      menu.classList.add("opacity-100", "translate-y-0", "scale-100");
+      menu.classList.remove("opacity-0","translate-y-2","scale-95","pointer-events-none");
+      menu.classList.add("opacity-100","translate-y-0","scale-100");
       if (arrow) arrow.classList.add("rotate-180");
     }
 
     function closeMenu() {
       btn.setAttribute("aria-expanded", "false");
-      menu.classList.add("opacity-0", "translate-y-2", "scale-95", "pointer-events-none");
-      menu.classList.remove("opacity-100", "translate-y-0", "scale-100");
+      menu.classList.add("opacity-0","translate-y-2","scale-95","pointer-events-none");
+      menu.classList.remove("opacity-100","translate-y-0","scale-100");
       if (arrow) arrow.classList.remove("rotate-180");
     }
 
@@ -202,7 +170,7 @@
     window.addEventListener("scroll", closeMenu, { passive: true });
   })();
 
-  // ===== Theme toggle (dark/light) =====
+  // ===== Theme toggle =====
   (function () {
     const STORAGE_KEY = "theme";
     const root = document.documentElement;
@@ -211,44 +179,30 @@
     if (!btn || !icon) return;
 
     function setIcon(theme){
-  if (theme === "light") {
-    // СОЛНЦЕ
-    icon.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="white"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           class="w-5 h-5">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      </svg>`;
-  } else {
-    // ЛУНА
-    icon.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="white"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           class="w-5 h-5">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3
-                 7 7 0 0 0 21 12.79z"/>
-      </svg>`;
-  }
-}
-
+      if (theme === "light") {
+        icon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="w-5 h-5">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>`;
+      } else {
+        icon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="w-5 h-5">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>`;
+      }
+    }
 
     function applyTheme(theme){
       root.setAttribute("data-theme", theme);
@@ -256,8 +210,7 @@
     }
 
     const saved = localStorage.getItem(STORAGE_KEY);
-    const initial = saved || "dark";
-    applyTheme(initial);
+    applyTheme(saved || "dark");
 
     btn.addEventListener("click", () => {
       const next = (root.getAttribute("data-theme") === "light") ? "dark" : "light";
@@ -266,8 +219,7 @@
     });
   })();
 
-
-  // ===== Toast (success/error) =====
+  // ===== Toast =====
   const toastEl = document.getElementById("toast");
   const toastTextEl = document.getElementById("toastText");
   let toastTimer = null;
@@ -277,26 +229,22 @@
 
     toastTextEl.textContent = text;
 
-    // очистить предыдущие стили
     toastEl.classList.remove(
-      "bg-black/85", "border-white/10", "text-white",
-      "bg-green-500/20", "border-green-400/30", "text-green-100",
-      "bg-red-500/20", "border-red-400/30", "text-red-100"
+      "bg-black/85","border-white/10","text-white",
+      "bg-green-500/20","border-green-400/30","text-green-100",
+      "bg-red-500/20","border-red-400/30","text-red-100"
     );
 
-    if (type === "error") {
-      toastEl.classList.add("bg-red-500/20", "border-red-400/30", "text-red-100");
-    } else {
-      toastEl.classList.add("bg-green-500/20", "border-green-400/30", "text-green-100");
-    }
+    if (type === "error") toastEl.classList.add("bg-red-500/20","border-red-400/30","text-red-100");
+    else toastEl.classList.add("bg-green-500/20","border-green-400/30","text-green-100");
 
-    toastEl.classList.remove("opacity-0", "translate-y-3");
-    toastEl.classList.add("opacity-100", "translate-y-0");
+    toastEl.classList.remove("opacity-0","translate-y-3");
+    toastEl.classList.add("opacity-100","translate-y-0");
 
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
-      toastEl.classList.add("opacity-0", "translate-y-3");
-      toastEl.classList.remove("opacity-100", "translate-y-0");
+      toastEl.classList.add("opacity-0","translate-y-3");
+      toastEl.classList.remove("opacity-100","translate-y-0");
     }, 1600);
   }
 
@@ -363,15 +311,56 @@
     }
   }
 
-  // Делегирование кликов
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-add-to-cart]");
-    if (!btn) return;
-    e.preventDefault();
-    if (btn.disabled) return;
-    addToCart(btn);
-  });
-    // ===== Header hide on scroll down / show on scroll up =====
+  const btn = e.target.closest("[data-add-to-cart]");
+  if (!btn) return;
+  e.preventDefault();
+  if (btn.disabled) return;
+
+  // ===== локальный счетчик =====
+  const container = btn.closest('.mt-3');
+  const countSpan = container.querySelector('.product-count');
+  let count = parseInt(countSpan?.textContent) || 0;
+
+  // Делаем кнопку временно неактивной
+  btn.disabled = true;
+  btn.classList.add("opacity-70");
+
+  // ===== отправка на сервер =====
+  const csrftoken =
+    getCookie("csrftoken") ||
+    document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
+
+  fetch(btn.dataset.url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken || "",
+      "X-Requested-With": "XMLHttpRequest",
+      "Accept": "application/json",
+    },
+    body: JSON.stringify({ quantity: count + 1 }) // +1, т.к. добавляем товар
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.ok) {
+        showToast(`${btn.dataset.name} добавлен в корзину`, "success");
+        countSpan.textContent = count + 1; // обновляем счетчик только после успешного добавления
+        if (typeof data.cart_count !== "undefined") setCartCount(data.cart_count);
+      } else {
+        showToast((data && data.error) || "Ошибка", "error");
+      }
+    })
+    .catch(() => showToast("Ошибка сети", "error"))
+    .finally(() => {
+      btn.disabled = false;
+      btn.classList.remove("opacity-70");
+    });
+});
+
+
+  // ===== Header hide on scroll =====
   (function () {
     const header = document.getElementById("siteHeader");
     if (!header) return;
@@ -382,9 +371,9 @@
     function onScroll() {
       const y = window.scrollY || 0;
       const goingDown = y > lastY;
-      const pastThreshold = y > 80;
+      const past = y > 80;
 
-      if (goingDown && pastThreshold) header.classList.add("-translate-y-full");
+      if (goingDown && past) header.classList.add("-translate-y-full");
       else header.classList.remove("-translate-y-full");
 
       lastY = y;
@@ -397,8 +386,79 @@
         ticking = true;
       }
     }, { passive: true });
-  })();
+  })
+  >
+document.addEventListener("DOMContentLoaded", function() {
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+  document.querySelectorAll(".product-card").forEach(card => {
+    const stock = parseInt(card.dataset.stock, 10) || 0;
+    const minusBtn = card.querySelector(".minus-btn");
+    const plusBtn = card.querySelector(".plus-btn");
+    const countEl = card.querySelector(".product-count");
+    const addBtn = card.querySelector(".add-to-cart-btn");
+
+    let count = 0;
+
+    minusBtn?.addEventListener("click", () => {
+      if(count > 0) count--;
+      countEl.textContent = count;
+    });
+
+    plusBtn?.addEventListener("click", () => {
+      if(count < stock) count++;
+      countEl.textContent = count;
+    });
+
+    addBtn?.addEventListener("click", async () => {
+      if(count < 1) {
+        showNotification("Выберите количество", "red");
+        return;
+      }
+
+      addBtn.disabled = true; // отключаем кнопку
+      const url = addBtn.dataset.url;
+      const formData = new FormData();
+      formData.append("qty", count);
+
+      try {
+        const resp = await fetch(url, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": csrftoken,
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          body: formData
+        });
+
+        const data = await resp.json();
+
+        if(data.success) {
+          showNotification(`Добавлено в корзину: ${count} шт.`, "green");
+          count = 0;
+          countEl.textContent = 0;
+        } else {
+          showNotification(data.error || "Ошибка при добавлении", "red");
+        }
+      } catch(err) {
+        console.error(err);
+        showNotification("Ошибка сети", "red");
+      } finally {
+        setTimeout(() => addBtn.disabled = false, 1000);
+      }
+    });
+  });
+
+  function showNotification(message, color="green") {
+    const msg = document.createElement("div");
+    msg.textContent = message;
+    msg.className = `fixed top-5 right-5 px-4 py-2 rounded shadow-lg text-white z-50 ${
+      color === "green" ? "bg-green-500" : "bg-red-500"
+    }`;
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 2500);
+  }
+});
 </script>
 
 </body>

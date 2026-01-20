@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-16 13:41+0500\n"
+"POT-Creation-Date: 2026-01-21 00:12+0500\n"
 "PO-Revision-Date: 2026-01-16 13:41+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -29,139 +29,179 @@ msgstr "Oʻzbekcha (kiril)"
 msgid "Oʻzbekcha"
 msgstr "Oʻzbekcha (lotin)"
 
-#: .\orders\views.py:75
+#: .\orders\views.py:84
 msgid "Товара нет в наличии"
 msgstr "Mahsulot mavjud emas"
 
-#: .\orders\views.py:82
+#: .\orders\views.py:91
 #, python-format
 msgid "Нельзя добавить больше, чем есть в наличии (%(stock)s)"
 msgstr "Mavjud miqdordan (%(stock)s) ko‘p qo‘shib bo‘lmaydi"
 
-#: .\orders\views.py:122
+#: .\orders\views.py:132
+msgid "Выберите способ оплаты."
+msgstr "To'lov usulini tanlang."
+
+#: .\orders\views.py:136
 msgid "Заполните имя, телефон и адрес."
 msgstr "Ism, telefon va manzilni to‘ldiring."
 
-#: .\orders\views.py:127
+#: .\orders\views.py:140
 msgid ""
 "В корзине есть товары, которых нет в наличии. Удалите их и попробуйте снова."
-msgstr "Savatda mavjud bo‘lmagan mahsulotlar bor. Ularni o‘chirib, qayta urinib ko‘ring."
+msgstr ""
+"Savatda mavjud bo‘lmagan mahsulotlar bor. Ularni o‘chirib, qayta urinib "
+"ko‘ring."
 
-#: .\orders\views.py:148
+#: .\orders\views.py:160
 #, python-format
 msgid "Недостаточно товара: %(name)s. В наличии: %(stock)s"
 msgstr "Mahsulot yetarli emas: %(name)s. Mavjud: %(stock)s"
 
-#: .\orders\views.py:212
+#: .\orders\views.py:206
+#, python-format
+msgid "Минимальная сумма заказа %(sum)s сум."
+msgstr "Buyurtmani minimal summasi %(sum)s so'm"
+
+#: .\orders\views.py:230
 msgid "Введите номер заказа и телефон."
 msgstr "Buyurtma raqami va telefonni kiriting."
 
-#: .\orders\views.py:220
+#: .\orders\views.py:238
 msgid "Заказ не найден. Проверьте номер и телефон."
 msgstr "Buyurtma topilmadi. Raqam va telefonni tekshiring."
 
-#: .\orders\views.py:304 .\templates\orders\order_detail.html:88
+#: .\orders\views.py:322 .\templates\orders\order_detail.html:78
 msgid "Этот заказ уже нельзя отменить."
 msgstr "Bu buyurtmani endi bekor qilib bo‘lmaydi."
 
-#: .\orders\views.py:317 .\templates\orders\order_detail.html:38
+#: .\orders\views.py:335 .\templates\orders\order_detail.html:30
 msgid "Заказ отменен"
 msgstr "Buyurtma bekor qilindi"
 
-#: .\templates\base.html:9 .\templates\base.html:17 .\templates\base.html:19
-#: .\templates\base.html:30 .\templates\base.html:49 .\templates\base.html:52
+#: .\templates\base.html:8 .\templates\base.html:13 .\templates\base.html:14
+#: .\templates\base.html:22 .\templates\base.html:41 .\templates\base.html:44
 #: .\templates\orders\cart.html:4 .\templates\orders\checkout.html:4
 #: .\templates\orders\order_detail.html:4 .\templates\orders\track.html:4
-#: .\templates\shop\category.html:5 .\templates\shop\home.html:6
-#: .\templates\shop\product.html:4
+#: .\templates\shop\category.html:5 .\templates\shop\product.html:5
 msgid "MEZON Market"
 msgstr "MEZON Market"
 
-#: .\templates\base.html:12 .\templates\base.html:21 .\templates\base.html:32
+#: .\templates\base.html:9 .\templates\base.html:15 .\templates\base.html:23
 msgid "Свежие продукты рядом. Быстрая доставка и удобный заказ."
 msgstr "Yangi mahsulotlar yaqin. Tezkor yetkazib berish va qulay buyurtma."
 
-#: .\templates\base.html:54
+#: .\templates\base.html:45
 msgid "Свежие продукты рядом"
 msgstr "Yangi mahsulotlar yaqin"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:53
 msgid "Каталог"
 msgstr "Toifalar"
 
-#: .\templates\base.html:69 .\templates\orders\track.html:4
-#: .\templates\orders\track.html:9
+#: .\templates\base.html:58 .\templates\orders\success.html:29
+#: .\templates\orders\track.html:4 .\templates\orders\track.html:9
 msgid "Мой заказ"
 msgstr "Buyurtmam"
 
-#: .\templates\base.html:74 .\templates\orders\cart.html:4
-#: .\templates\orders\cart.html:8
+#: .\templates\base.html:63 .\templates\orders\cart.html:4
+#: .\templates\orders\cart.html:9
 msgid "Корзина"
 msgstr "Savat"
 
-#: .\templates\base.html:157
+#: .\templates\base.html:71
+msgid "Переключить тему"
+msgstr "Mavzuni almashtirish"
+
+#: .\templates\base.html:81
+msgid "Выбор языка"
+msgstr "Tilni tanlash"
+
+#: .\templates\base.html:139
 msgid "Техподдержка"
 msgstr "Texnik qo‘llab-quvvatlash"
 
-#: .\templates\orders\cart.html:14
+#: .\templates\orders\cart.html:11
+msgid "Продолжить покупки"
+msgstr "Xaridlarni davom etish"
+
+#: .\templates\orders\cart.html:18
 msgid ""
 "В корзине есть товары, которых нет в наличии. Удалите их, чтобы оформить "
 "заказ."
-msgstr "Savatda mavjud bo‘lmagan mahsulotlar bor. Buyurtma berish uchun ularni o‘chiring."
+msgstr ""
+"Savatda mavjud bo‘lmagan mahsulotlar bor. Buyurtma berish uchun ularni "
+"o‘chiring."
 
-#: .\templates\orders\cart.html:23 .\templates\orders\cart.html:35
-#: .\templates\orders\cart.html:45 .\templates\orders\cart.html:50
-#: .\templates\orders\cart.html:55 .\templates\orders\checkout.html:49
-#: .\templates\orders\order_detail.html:48
-#: .\templates\orders\order_detail.html:52
-#: .\templates\orders\order_detail.html:64
-#: .\templates\orders\order_detail.html:69 .\templates\orders\success.html:19
-#: .\templates\shop\product.html:11
+#: .\templates\orders\cart.html:29 .\templates\orders\cart.html:45
+#: .\templates\orders\cart.html:62 .\templates\orders\cart.html:67
+#: .\templates\orders\cart.html:73 .\templates\orders\cart.html:79
+#: .\templates\orders\checkout.html:85 .\templates\orders\checkout.html:87
+#: .\templates\orders\order_detail.html:40
+#: .\templates\orders\order_detail.html:44
+#: .\templates\orders\order_detail.html:57
+#: .\templates\orders\order_detail.html:62 .\templates\orders\success.html:17
+#: .\templates\shop\category.html:66 .\templates\shop\category.html:67
+#: .\templates\shop\category.html:70 .\templates\shop\category.html:71
+#: .\templates\shop\category.html:73 .\templates\shop\category.html:135
+#: .\templates\shop\category.html:136 .\templates\shop\category.html:139
+#: .\templates\shop\category.html:140 .\templates\shop\category.html:142
+#: .\templates\shop\product.html:63 .\templates\shop\product.html:64
+#: .\templates\shop\product.html:67 .\templates\shop\product.html:68
+#: .\templates\shop\product.html:70 .\templates\shop\product.html:108
 msgid "сум"
 msgstr "soʻm"
 
-#: .\templates\orders\cart.html:27 .\templates\shop\category.html:79
-#: .\templates\shop\category.html:138 .\templates\shop\home.html:109
-#: .\templates\shop\home.html:159 .\templates\shop\product.html:44
+#: .\templates\orders\cart.html:37 .\templates\shop\category.html:78
+#: .\templates\shop\category.html:147 .\templates\shop\product.html:75
 msgid "В наличии"
 msgstr "Mavjud"
 
-#: .\templates\orders\cart.html:29 .\templates\shop\category.html:81
-#: .\templates\shop\category.html:102 .\templates\shop\category.html:140
-#: .\templates\shop\category.html:161 .\templates\shop\home.html:111
-#: .\templates\shop\home.html:132 .\templates\shop\home.html:161
-#: .\templates\shop\home.html:182 .\templates\shop\product.html:46
-#: .\templates\shop\product.html:67
+#: .\templates\orders\cart.html:39 .\templates\shop\_product_card.html:63
+#: .\templates\shop\category.html:80 .\templates\shop\category.html:99
+#: .\templates\shop\category.html:149 .\templates\shop\category.html:168
+#: .\templates\shop\product.html:77 .\templates\shop\product.html:95
 msgid "Нет в наличии"
 msgstr "Mavjud emas"
 
-#: .\templates\orders\cart.html:36
+#: .\templates\orders\cart.html:50
 msgid "Удалить"
 msgstr "O‘chirish"
 
-#: .\templates\orders\cart.html:44
+#: .\templates\orders\cart.html:61
 msgid "Товары"
 msgstr "Mahsulotlar"
 
-#: .\templates\orders\cart.html:49 .\templates\orders\checkout.html:49
-#: .\templates\orders\order_detail.html:63
+#: .\templates\orders\cart.html:66 .\templates\orders\checkout.html:85
+#: .\templates\orders\order_detail.html:56 .\templates\shop\product.html:107
 msgid "Доставка"
 msgstr "Yetkazib berish"
 
-#: .\templates\orders\cart.html:54 .\templates\orders\order_detail.html:68
+#: .\templates\orders\cart.html:72
+#, python-format
+msgid "Скидка 5%% (от 1 000 000)"
+msgstr "5% chegirma (1 000 000 dan)"
+
+#: .\templates\orders\cart.html:78 .\templates\orders\order_detail.html:61
 msgid "Итого"
 msgstr "Jami"
 
-#: .\templates\orders\cart.html:62
-msgid "Удалите товары, которых нет в наличии"
-msgstr "Mavjud bo‘lmagan mahsulotlarni o‘chiring"
-
-#: .\templates\orders\cart.html:63 .\templates\orders\cart.html:68
-#: .\templates\orders\checkout.html:54 .\templates\orders\checkout.html:61
+#: .\templates\orders\cart.html:89 .\templates\orders\cart.html:96
+#: .\templates\orders\checkout.html:92 .\templates\orders\checkout.html:97
 msgid "Оформить заказ"
 msgstr "Buyurtma berish"
 
-#: .\templates\orders\cart.html:75
+#: .\templates\orders\cart.html:102
+msgid "Минимальная сумма 50000 сум"
+msgstr "Minimal summa 50000 so'm"
+
+#: .\templates\orders\cart.html:104
+#, fuzzy
+#| msgid "Удалите товары, которых нет в наличии"
+msgid "В корзине есть товары, которых нет в наличии"
+msgstr "Mavjud bo‘lmagan mahsulotlarni o‘chiring"
+
+#: .\templates\orders\cart.html:112
 msgid "Корзина пуста"
 msgstr "Savat bo‘sh"
 
@@ -169,86 +209,132 @@ msgstr "Savat bo‘sh"
 msgid "Оформление заказа"
 msgstr "Buyurtmani rasmiylashtirish"
 
-#: .\templates\orders\checkout.html:17
+#: .\templates\orders\checkout.html:19
 msgid ""
 "Некоторые товары в корзине закончились. Вернитесь в корзину и удалите их, "
 "затем попробуйте снова."
-msgstr "Savatdagi ayrim mahsulotlar tugagan. Savatga qaytib ularni o‘chiring va qayta urinib ko‘ring."
+msgstr ""
+"Savatdagi ayrim mahsulotlar tugagan. Savatga qaytib ularni o‘chiring va "
+"qayta urinib ko‘ring."
 
-#: .\templates\orders\checkout.html:25
+#: .\templates\orders\checkout.html:27
 msgid "Ваше имя"
 msgstr "Ismingiz"
 
-#: .\templates\orders\checkout.html:28 .\templates\orders\track.html:24
+#: .\templates\orders\checkout.html:31 .\templates\orders\track.html:28
 msgid "Телефон"
 msgstr "Telefon"
 
-#: .\templates\orders\checkout.html:31
+#: .\templates\orders\checkout.html:35
 msgid "Адрес доставки"
 msgstr "Yetkazib berish manzili"
 
-#: .\templates\orders\checkout.html:34
+#: .\templates\orders\checkout.html:39
 msgid "Комментарий (необязательно)"
 msgstr "Izoh (ixtiyoriy)"
 
-#: .\templates\orders\checkout.html:43
+#: .\templates\orders\checkout.html:44
+#, fuzzy
+#| msgid "Сумма к оплате:"
+msgid "Способ оплаты"
+msgstr "To‘lov summasi:"
+
+#: .\templates\orders\checkout.html:54
+#, fuzzy
+#| msgid "В наличии"
+msgid "Наличные"
+msgstr "Naqt pul"
+
+#: .\templates\orders\checkout.html:66
+msgid "Картой"
+msgstr "Karta bilan"
+
+#: .\templates\orders\checkout.html:79
 msgid "Определить местоположение"
 msgstr "Joylashuvni aniqlash"
 
-#: .\templates\orders\checkout.html:57
+#: .\templates\orders\checkout.html:86
+#, fuzzy
+#| msgid "Адрес доставки"
+msgid "Время доставки"
+msgstr "Yetkazib berish manzili"
+
+#: .\templates\orders\checkout.html:87
+msgid "Минимальная сумма заказа"
+msgstr "Buyurtmani minimal summasi"
+
+#: .\templates\orders\checkout.html:94
 msgid "Сначала удалите отсутствующие товары из корзины."
 msgstr "Avval savatdan mavjud bo‘lmagan mahsulotlarni o‘chiring."
 
-#: .\templates\orders\checkout.html:69
-msgid "Запрашиваем геолокацию..."
-msgstr "Geolokatsiya so‘ralmoqda..."
-
-#: .\templates\orders\checkout.html:70
+#: .\templates\orders\checkout.html:115
 msgid "Геолокация не поддерживается браузером."
 msgstr "Brauzer geolokatsiyani qo‘llab-quvvatlamaydi."
 
-#: .\templates\orders\checkout.html:71
+#: .\templates\orders\checkout.html:119
+msgid "Запрашиваем геолокацию..."
+msgstr "Geolokatsiya so‘ralmoqda..."
+
+#: .\templates\orders\checkout.html:128
 msgid "✅ Местоположение получено"
 msgstr "✅ Joylashuv olindi"
 
-#: .\templates\orders\checkout.html:72
+#: .\templates\orders\checkout.html:131
 msgid "Не удалось получить геолокацию (разрешите доступ)."
 msgstr "Geolokatsiyani olishmadi (ruxsat bering)."
 
+#: .\templates\orders\checkout.html:132
+#, fuzzy
+#| msgid "Не удалось получить геолокацию (разрешите доступ)."
+msgid "Доступ к геолокации запрещён (разрешите доступ)."
+msgstr "Geolokatsiyani olishmadi (ruxsat bering)."
+
+#: .\templates\orders\checkout.html:133
+#, fuzzy
+#| msgid "Геолокация не поддерживается браузером."
+msgid "Геолокация недоступна (нет сети/сигнала)."
+msgstr "Brauzer geolokatsiyani qo‘llab-quvvatlamaydi."
+
+#: .\templates\orders\checkout.html:134
+#, fuzzy
+#| msgid "Запрашиваем геолокацию..."
+msgid "Истекло время ожидания геолокации."
+msgstr "Geolokatsiya so‘ralmoqda..."
+
 #: .\templates\orders\order_detail.html:4
-#: .\templates\orders\order_detail.html:12
+#: .\templates\orders\order_detail.html:11
 msgid "Заказ"
 msgstr "Buyurtma"
 
-#: .\templates\orders\order_detail.html:15
+#: .\templates\orders\order_detail.html:13
 msgid "Статус"
 msgstr "Holati"
 
-#: .\templates\orders\order_detail.html:18
+#: .\templates\orders\order_detail.html:15
 msgid "Новый"
 msgstr "Yangi"
 
-#: .\templates\orders\order_detail.html:20
+#: .\templates\orders\order_detail.html:16
 msgid "Отменен"
 msgstr "Bekor qilingan"
 
-#: .\templates\orders\order_detail.html:22
+#: .\templates\orders\order_detail.html:17
 msgid "Выполнен"
 msgstr "Bajarildi"
 
-#: .\templates\orders\order_detail.html:31
+#: .\templates\orders\order_detail.html:24
 msgid "Найти другой"
 msgstr "Boshqasini topish"
 
-#: .\templates\orders\order_detail.html:56
+#: .\templates\orders\order_detail.html:48
 msgid "Товары не найдены."
 msgstr "Mahsulotlar topilmadi."
 
-#: .\templates\orders\order_detail.html:77
+#: .\templates\orders\order_detail.html:70
 msgid "Отменить заказ"
 msgstr "Buyurtmani bekor qilish"
 
-#: .\templates\orders\order_detail.html:81
+#: .\templates\orders\order_detail.html:74
 msgid "Отмена возможна только пока заказ новый."
 msgstr "Bekor qilish faqat buyurtma yangi bo‘lganda mumkin."
 
@@ -257,46 +343,54 @@ msgid "Спасибо!"
 msgstr "Rahmat!"
 
 #: .\templates\orders\success.html:8
-#, python-format
-msgid ""
-"\n"
-"        Ваш заказ №%(oid)s успешно принят\n"
-"      "
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        Ваш заказ №%(oid)s успешно принят\n"
+#| "      "
+msgid "Ваш заказ №%(oid)s успешно принят"
 msgstr ""
 "\n"
 "        Sizning №%(oid)s buyurtmangiz muvaffaqiyatli qabul qilindi\n"
 "      "
 
-#: .\templates\orders\success.html:19
+#: .\templates\orders\success.html:17
 msgid "Сумма к оплате:"
 msgstr "To‘lov summasi:"
 
-#: .\templates\orders\success.html:23
-#, python-format
-msgid ""
-"\n"
-"        (включая доставку %(fee)s сум)\n"
-"        "
+#: .\templates\orders\success.html:21
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        (включая доставку %(fee)s сум)\n"
+#| "        "
+msgid "(включая доставку %(fee)s сум)"
 msgstr ""
 "\n"
 "        (yetkazib berish %(fee)s soʻm bilan)\n"
 "        "
 
-#: .\templates\orders\success.html:31
+#: .\templates\orders\success.html:26
 msgid "Вернуться в магазин"
 msgstr "Do‘konga qaytish"
 
 #: .\templates\orders\track.html:11
 msgid "Введите номер заказа и телефон, указанный при оформлении."
-msgstr "Buyurtma raqamini va rasmiylashtirishda ko‘rsatilgan telefonni kiriting."
+msgstr ""
+"Buyurtma raqamini va rasmiylashtirishda ko‘rsatilgan telefonni kiriting."
 
-#: .\templates\orders\track.html:21
+#: .\templates\orders\track.html:24
 msgid "Номер заказа"
 msgstr "Buyurtma raqami"
 
-#: .\templates\orders\track.html:28
+#: .\templates\orders\track.html:32
 msgid "Показать заказ"
 msgstr "Buyurtmani ko‘rsatish"
+
+#: .\templates\shop\_product_card.html:58 .\templates\shop\category.html:93
+#: .\templates\shop\category.html:162 .\templates\shop\product.html:89
+msgid "В корзину"
+msgstr "Savatga"
 
 #: .\templates\shop\category.html:5
 msgid "категория"
@@ -310,94 +404,89 @@ msgstr "Toifada xarid qilish"
 msgid "Выберите товары и оформите заказ онлайн — быстрая доставка."
 msgstr "Mahsulotlarni tanlab, onlayn buyurtma bering — tezkor yetkazib berish."
 
-#: .\templates\shop\category.html:19
+#: .\templates\shop\category.html:17
 msgid "Выберите товары и добавляйте в корзину."
 msgstr "Mahsulotlarni tanlab, savatga qo‘shing."
 
-#: .\templates\shop\category.html:23
+#: .\templates\shop\category.html:21
 msgid "На главную"
 msgstr "Bosh sahifa"
 
-#: .\templates\shop\category.html:35 .\templates\shop\home.html:65
+#: .\templates\shop\category.html:30
 msgid "Акции"
 msgstr "Aksiyalar"
 
-#: .\templates\shop\category.html:41 .\templates\shop\home.html:71
+#: .\templates\shop\category.html:35
 msgid "Скидки"
 msgstr "Chegirmalar"
 
-#: .\templates\shop\category.html:63 .\templates\shop\home.html:93
+#: .\templates\shop\category.html:53 .\templates\shop\category.html:122
+#: .\templates\shop\product.html:42
+msgid "Супер акция"
+msgstr "Super aksiya"
+
+#: .\templates\shop\category.html:55 .\templates\shop\category.html:124
+#: .\templates\shop\product.html:44
 msgid "Акция"
 msgstr "Chegirma"
 
-#: .\templates\shop\category.html:94 .\templates\shop\category.html:153
-#: .\templates\shop\home.html:124 .\templates\shop\home.html:174
-#: .\templates\shop\product.html:59
-msgid "В корзину"
-msgstr "Savatga"
-
-#: .\templates\shop\category.html:168
+#: .\templates\shop\category.html:175
 msgid "В этой категории пока нет товаров."
 msgstr "Bu toifada hozircha mahsulotlar yo‘q."
 
-#: .\templates\shop\home.html:6
-msgid "поиск"
-msgstr "qidiruv"
-
-#: .\templates\shop\home.html:8
-msgid "MEZON Market — доставка продуктов"
-msgstr "MEZON Market — mahsulotlar yetkazib berish"
-
-#: .\templates\shop\home.html:14
-msgid "Результаты поиска по запросу"
-msgstr "So‘rov bo‘yicha qidiruv natijalari"
-
-#: .\templates\shop\home.html:14
-msgid "Быстрая доставка по Фергане"
-msgstr "Farg'ona bo‘ylab tezkor yetkazib berish."
-
-#: .\templates\shop\home.html:16
-msgid ""
-"Закажите свежие продукты онлайн: категории, популярные товары, удобная "
-"корзина и быстрая доставка."
-msgstr "Yangi mahsulotlarni onlayn buyurtma qiling: toifalar, ommabop mahsulotlar, qulay savat va tezkor yetkazib berish."
-
-#: .\templates\shop\home.html:27
-msgid "Магазин"
-msgstr "Do‘kon"
-
-#: .\templates\shop\home.html:28
-msgid "Категории и товары"
-msgstr "Toifalar va mahsulotlar"
-
-#: .\templates\shop\home.html:36
-msgid "Поиск..."
-msgstr "Qidirish..."
-
-#: .\templates\shop\home.html:44
-msgid "Найти"
-msgstr "Qidirish"
-
-#: .\templates\shop\home.html:189
-msgid "Ничего не найдено."
-msgstr "Hech narsa topilmadi."
-
-#: .\templates\shop\product.html:4
+#: .\templates\shop\product.html:5
 msgid "купить"
 msgstr "xarid qilish"
 
-#: .\templates\shop\product.html:11
+#: .\templates\shop\product.html:12
 msgid "Купить"
 msgstr "Xarid qilish"
 
-#: .\templates\shop\product.html:11
-msgid "Цена"
-msgstr "Narx"
-
-#: .\templates\shop\product.html:11
+#: .\templates\shop\product.html:12
 msgid "Доставка — MEZON Market."
 msgstr "Yetkazib berish — MEZON Market."
 
-#: .\templates\shop\product.html:73
+#: .\templates\shop\product.html:102
 msgid "Если товара нет в наличии — добавить в корзину нельзя."
 msgstr "Agar mahsulot mavjud bo‘lmasa — savatga qo‘shib bo‘lmaydi."
+
+#: .\templates\shop\product.html:108
+msgid "Минимальная сумма"
+msgstr "Minimal summa"
+
+#~ msgid "поиск"
+#~ msgstr "qidiruv"
+
+#~ msgid "MEZON Market — доставка продуктов"
+#~ msgstr "MEZON Market — mahsulotlar yetkazib berish"
+
+#~ msgid "Результаты поиска по запросу"
+#~ msgstr "So‘rov bo‘yicha qidiruv natijalari"
+
+#~ msgid "Быстрая доставка по Фергане"
+#~ msgstr "Farg'ona bo‘ylab tezkor yetkazib berish."
+
+#~ msgid ""
+#~ "Закажите свежие продукты онлайн: категории, популярные товары, удобная "
+#~ "корзина и быстрая доставка."
+#~ msgstr ""
+#~ "Yangi mahsulotlarni onlayn buyurtma qiling: toifalar, ommabop "
+#~ "mahsulotlar, qulay savat va tezkor yetkazib berish."
+
+#~ msgid "Магазин"
+#~ msgstr "Do‘kon"
+
+#~ msgid "Категории и товары"
+#~ msgstr "Toifalar va mahsulotlar"
+
+#~ msgid "Поиск..."
+#~ msgstr "Qidirish..."
+
+#~ msgid "Найти"
+#~ msgstr "Qidirish"
+
+#~ msgid "Ничего не найдено."
+#~ msgstr "Hech narsa topilmadi."
+
+#~ msgid "Цена"
+#~ msgstr "Narx"

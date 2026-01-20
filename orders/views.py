@@ -8,6 +8,7 @@ from shop.models import Product
 from .models import Order, OrderItem
 
 DELIVERY_FEE = 5000
+MIN_ORDER_SUM = 50000
 
 
 def _get_cart(request):
@@ -29,12 +30,11 @@ def _cart_count(cart: dict) -> int:
 
 
 def _build_cart_context(cart: dict):
-    """Готовит items/total и флаг has_oos (out of stock)."""
     ids = [int(k) for k in cart.keys()] if cart else []
     products = list(Product.objects.filter(id__in=ids)) if ids else []
 
     items = []
-    total = 0
+    items_total = 0
     has_oos = False
 
     for p in products:
@@ -42,20 +42,29 @@ def _build_cart_context(cart: dict):
         if qty <= 0:
             continue
 
-        # "нет в наличии" если stock <= 0 или заказано больше чем остаток
         if (p.stock or 0) <= 0 or qty > (p.stock or 0):
             has_oos = True
 
         line = qty * p.price
-        total += line
-        items.append({"p": p, "qty": qty, "line": line})
+        items_total += line
+        items.append({
+            "p": p,
+            "qty": qty,
+            "line": line,
+        })
+
+    is_min_order = items_total >= MIN_ORDER_SUM
 
     return {
         "items": items,
-        "total": total,
+        "items_total": items_total,
+        "delivery_fee": DELIVERY_FEE if items_total > 0 else 0,
+        "total": items_total + (DELIVERY_FEE if items_total > 0 else 0),
         "has_oos": has_oos,
-        "delivery_fee": DELIVERY_FEE,
+        "is_min_order": is_min_order,
+        "min_order_sum": MIN_ORDER_SUM,
     }
+
 
 
 @require_POST
@@ -107,8 +116,8 @@ def checkout(request):
     if not cart:
         return redirect("cart")
 
-    # Чтобы не оформить заказ при нулевом остатке даже с UI-обходом
     ctx = _build_cart_context(cart)
+
     if request.method == "GET":
         return render(request, "orders/checkout.html", ctx)
 
@@ -117,12 +126,16 @@ def checkout(request):
     phone = request.POST.get("phone", "").strip()
     address = request.POST.get("address", "").strip()
     comment = request.POST.get("comment", "").strip()
+    payment_method = request.POST.get("payment_method", "cash")  # default cash
+
+    if payment_method not in {"cash", "card"}:
+        ctx["error"] = _("Выберите способ оплаты.")
+        return render(request, "orders/checkout.html", ctx)
 
     if not name or not phone or not address:
         ctx["error"] = _("Заполните имя, телефон и адрес.")
         return render(request, "orders/checkout.html", ctx)
 
-    # Если есть out-of-stock — сразу назад
     if ctx.get("has_oos"):
         ctx["error"] = _("В корзине есть товары, которых нет в наличии. Удалите их и попробуйте снова.")
         return render(request, "orders/checkout.html", ctx)
@@ -135,10 +148,9 @@ def checkout(request):
     ids = [int(k) for k in cart.keys()]
 
     with transaction.atomic():
-        # Лочим строки товаров, чтобы не было гонки между покупками
         products = list(Product.objects.select_for_update().filter(id__in=ids))
 
-        # Повторная проверка наличия внутри транзакции (must-have)
+        # проверка наличия
         for p in products:
             qty = int(cart.get(str(p.id), 0) or 0)
             if qty <= 0:
@@ -151,15 +163,17 @@ def checkout(request):
                 }
                 return render(request, "orders/checkout.html", ctx)
 
+        # создаем заказ
         order = Order.objects.create(
             customer_name=name,
             phone=phone,
             address=address,
             comment=comment,
-            total=0,
+            total=0,  # временно
             status="new",
             lat=lat,
             lng=lng,
+            payment_method=payment_method,  # сохраняем выбор оплаты
         )
 
         total = 0
@@ -170,7 +184,6 @@ def checkout(request):
 
             p.stock = int(p.stock or 0) - qty
             if p.stock < 0:
-                # На всякий случай (не должно случиться из-за проверок выше)
                 raise ValueError("Stock went negative")
             p.save(update_fields=["stock"])
 
@@ -185,10 +198,15 @@ def checkout(request):
         order.total = total + DELIVERY_FEE
         order.save(update_fields=["total"])
 
-    # очистить корзину
+    # очистка корзины
     _save_cart(request, {})
-    return redirect("success", order_id=order.id)
 
+    # проверка минимальной суммы заказа
+    if total < MIN_ORDER_SUM:
+        ctx["error"] = _("Минимальная сумма заказа %(sum)s сум.") % {"sum": MIN_ORDER_SUM}
+        return render(request, "orders/cart.html", ctx)
+
+    return redirect("success", order_id=order.id)
 
 def success(request, order_id):
     order = get_object_or_404(Order, id=order_id)

@@ -7,13 +7,15 @@
 <div class="mt-6 max-w-xl mx-auto">
   <h1 class="text-2xl font-extrabold mb-4">{% trans "Оформление заказа" %}</h1>
 
-  <div class="glass p-6">
+  <div class="glass p-5 sm:p-6 rounded-3xl">
     {% if error %}
-      <div class="mb-3 text-red-400">{{ error }}</div>
+      <div class="mb-3 text-red-300 bg-red-500/10 border border-red-400/30 rounded-2xl p-3">
+        {{ error }}
+      </div>
     {% endif %}
 
     {% if has_oos %}
-      <div class="mb-3 text-red-400">
+      <div class="mb-3 text-red-300 bg-red-500/10 border border-red-400/30 rounded-2xl p-3">
         {% trans "Некоторые товары в корзине закончились. Вернитесь в корзину и удалите их, затем попробуйте снова." %}
       </div>
     {% endif %}
@@ -21,63 +23,75 @@
     <form method="post" class="space-y-3">
       {% csrf_token %}
 
-      <input
-        name="name"
-        autocomplete="name"
-        required
-        placeholder="{% trans 'Ваше имя' %}"
-        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
-      >
+      <input name="name" autocomplete="name" required
+             placeholder="{% trans 'Ваше имя' %}"
+             class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none">
 
-      <input
-        name="phone"
-        type="tel"
-        inputmode="tel"
-        autocomplete="tel"
-        required
-        placeholder="{% trans 'Телефон' %}"
-        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
-      >
+      <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required
+             placeholder="{% trans 'Телефон' %}"
+             class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none">
 
-      <input
-        name="address"
-        id="id_address"
-        autocomplete="street-address"
-        required
-        placeholder="{% trans 'Адрес доставки' %}"
-        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
-      >
+      <input name="address" id="id_address" autocomplete="street-address" required
+             placeholder="{% trans 'Адрес доставки' %}"
+             class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none">
 
-      <textarea
-        name="comment"
-        rows="3"
-        placeholder="{% trans 'Комментарий (необязательно)' %}"
-        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15"
-      ></textarea>
+      <textarea name="comment" rows="3"
+                placeholder="{% trans 'Комментарий (необязательно)' %}"
+                class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 outline-none"></textarea>
+
+    <!-- Способ оплаты -->
+<div class="space-y-1">
+  <span class="text-sm text-gray-700 dark:text-gray-300">{% trans "Способ оплаты" %}</span>
+  <div class="flex gap-3 mt-2">
+    <!-- Наличные -->
+    <label class="flex-1">
+      <input type="radio" name="payment_method" value="cash" checked class="sr-only peer">
+      <div
+        class="cursor-pointer rounded-2xl border border-gray-300 dark:border-gray-600
+               bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 py-3 text-center font-medium
+               transition-all duration-200
+               peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">
+        {% trans "Наличные" %}
+      </div>
+    </label>
+
+    <!-- Картой -->
+    <label class="flex-1">
+      <input type="radio" name="payment_method" value="card" class="sr-only peer">
+      <div
+        class="cursor-pointer rounded-2xl border border-gray-300 dark:border-gray-600
+               bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 py-3 text-center font-medium
+               transition-all duration-200
+               peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600">
+        {% trans "Картой" %}
+      </div>
+    </label>
+  </div>
+</div>
+
 
       <!-- Гео скрытые поля -->
       <input type="hidden" name="lat" id="lat">
       <input type="hidden" name="lng" id="lng">
 
       <div class="space-y-2">
-        <button type="button" id="geoBtn" class="btn-brand" aria-describedby="geoStatus">
+        <button type="button" id="geoBtn" class="btn-brand w-full" aria-describedby="geoStatus">
           {% trans "Определить местоположение" %}
         </button>
-
         <div id="geoStatus" class="text-sm text-white/70"></div>
       </div>
 
-      <div class="text-white/70 text-sm">
-        {% trans "Доставка" %}: <b>{{ delivery_fee }} {% trans "сум" %}</b>
+      <div class="text-white/70 text-sm space-y-1 pt-1">
+        <div>{% trans "Доставка" %}: <b>{{ delivery_fee }} {% trans "сум" %}</b></div>
+        <div>⏰ {% trans "Время доставки" %}: <b>10:00–22:00</b></div>
+        <div>🧾 {% trans "Минимальная сумма заказа" %}: <b>50 000</b> {% trans "сум" %}</div>
       </div>
 
       {% if has_oos %}
         <button class="btn-brand w-full text-lg opacity-60 cursor-not-allowed" disabled>
           {% trans "Оформить заказ" %}
         </button>
-        <div class="text-white/60 text-xs">
-          {% trans "Сначала удалите отсутствующие товары из корзины." %}
-        </div>
+        <div class="text-white/60 text-xs">{% trans "Сначала удалите отсутствующие товары из корзины." %}</div>
       {% else %}
         <button class="btn-brand w-full text-lg">
           {% trans "Оформить заказ" %}
@@ -94,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const addressInput = document.getElementById("id_address");
   const latEl = document.getElementById("lat");
   const lngEl = document.getElementById("lng");
-
   if (!btn) return;
 
   btn.addEventListener("click", () => {
@@ -109,13 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
       (pos) => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-
         if (latEl) latEl.value = lat;
         if (lngEl) lngEl.value = lng;
-
-        // Минимум: пишем координаты в адрес (дальше можно заменить на реальный адрес через API)
         if (addressInput) addressInput.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-
         if (statusEl) statusEl.textContent = "{% trans '✅ Местоположение получено' %}";
       },
       (err) => {
