@@ -18,6 +18,7 @@ class Category(models.Model):
     name_ru = models.CharField(max_length=200)
     name_uz = models.CharField(max_length=200, blank=True, default="")
     name_uz_latn = models.CharField(max_length=200, blank=True, default="")
+    image = models.ImageField(upload_to="categories/", blank=True, null=True)
 
     class Meta:
         verbose_name = "Категория"
