@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Category, Product
+import json
 
 def category(request, category_id):
     category_obj = get_object_or_404(Category, id=category_id)
@@ -65,10 +66,21 @@ def home(request):
         },
     )
 
-@csrf_exempt
-def add_to_cart(request, product_id):
+
+@require_http_methods(["POST"])
+def add_to_cart(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        data = request.POST
+
+    product_id = data.get('product_id')
+    qty = int(data.get('quantity', 1))
+
+    if not product_id:
+        return JsonResponse({'success': False, 'message': 'Не указан ID товара'}, status=400)
+
     product = get_object_or_404(Product, id=product_id)
-    qty = int(request.POST.get("qty", 1))  # берем из POST
 
     cart = request.session.get("cart", {})
     pid = str(product_id)
@@ -76,7 +88,10 @@ def add_to_cart(request, product_id):
     request.session["cart"] = cart
     request.session.modified = True
 
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        return JsonResponse({"success": True, "cart_count": cart[pid]})
-
-    return redirect("home")
+    return JsonResponse({
+        'success': True,
+        'message': f'{product.name} добавлен в корзину',
+        'cart_count': sum(cart.values()),
+        'added_quantity': qty,
+        'product_name': product.name_ru or product.name_uz or product.name or 'Товар'
+    })
